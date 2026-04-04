@@ -7,18 +7,32 @@ import authRoutes from './routes/authRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 
+import { env } from './config/env.js';
+
 const app = express();
 
 // Security and utility middlewares
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: env.FRONTEND_URL,
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Routes
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Welcome to Hannvis eCommerce API',
+    version: '1.0.0',
+    documentation: 'https://github.com/albin6/ecom'
+  });
+});
+
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'API is running' });
+  res.json({ status: 'ok', message: 'API is healthy' });
 });
 
 // APIs will be mounted here
