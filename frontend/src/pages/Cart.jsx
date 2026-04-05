@@ -59,141 +59,177 @@ export const Cart = () => {
   const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="py-8">
-      <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-8 flex items-center gap-3">
-        <ShoppingBag className="text-secondary" />
-        Shopping Cart
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }} 
+      className="py-12 bg-base-black min-h-screen"
+    >
+      <header className="mb-16 border-b border-white/5 pb-10 flex flex-col sm:flex-row justify-between items-end gap-6">
+        <div>
+          <h1 className="text-4xl lg:text-6xl font-serif italic tracking-tight mb-2 flex items-center gap-4">
+            The Selection
+          </h1>
+          <p className="text-[10px] tracking-[0.4em] font-bold text-text-muted uppercase">
+            Reviewing your curated pieces
+          </p>
+        </div>
         {cartItems.length > 0 && (
-          <span className="text-base font-semibold text-gray-400 mt-1">({totalItems} {totalItems === 1 ? 'item' : 'items'})</span>
+          <span className="text-[10px] tracking-[0.2em] font-bold text-accent uppercase bg-accent/5 px-4 py-2 border border-accent/10">
+            {totalItems} {totalItems === 1 ? 'Piece' : 'Pieces'} Securing
+          </span>
         )}
-      </h1>
+      </header>
 
       {cartItems.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-24 text-center">
-          <div className="h-24 w-24 bg-gray-100 rounded-full flex items-center justify-center mb-6 text-gray-300">
-            <ShoppingBag size={48} />
+        <div className="flex flex-col items-center justify-center py-32 text-center space-y-10">
+          <div className="h-40 w-40 bg-surface rounded-full flex items-center justify-center text-text-muted/10 border border-white/5 shadow-inner">
+            <ShoppingBag size={64} strokeWidth={0.5} />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Your cart is empty</h2>
-          <p className="text-gray-500 mb-8">Looks like you haven't added anything yet.</p>
+          <div className="space-y-4">
+            <h2 className="text-3xl font-serif italic">Your archive is vacant</h2>
+            <p className="text-[10px] tracking-widest text-text-muted uppercase">Explore our current collections to find your match</p>
+          </div>
           <Link to="/">
-            <Button size="lg" className="rounded-full px-8">Start Shopping</Button>
+            <button className="btn btn-primary px-12 h-14 text-[10px]">Return to Collection</button>
           </Link>
         </div>
       ) : (
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
-          {/* Items List */}
-          <div className="lg:w-2/3 w-full">
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-50">
-              <AnimatePresence>
+        <div className="flex flex-col lg:flex-row gap-20 items-start">
+          {/* Items List (Editorial Style) */}
+          <div className="lg:w-2/3 w-full space-y-12">
+            <div className="divide-y divide-white/5 border-t border-b border-white/5">
+              <AnimatePresence mode="popLayout">
                 {cartItems.map((item) => (
                   <motion.div
                     key={`${item.product}-${item.color}-${item.size}`}
                     layout
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20, height: 0 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                    className="p-5 flex items-center gap-5"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="py-10 flex flex-col sm:flex-row items-center gap-10 group"
                   >
-                    <Link to={`/product/${item.product}`} className="flex-shrink-0">
-                      <div className="h-24 w-20 rounded-xl overflow-hidden border border-gray-100 bg-gray-50">
-                        <img src={item.image} alt={item.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
-                      </div>
+                    <Link to={`/product/${item.product}`} className="flex-shrink-0 relative overflow-hidden bg-surface aspect-[3/4] w-32 shadow-xl group-hover:shadow-accent/5 transition-all duration-700">
+                      <img 
+                        src={item.image} 
+                        alt={item.name} 
+                        className="h-full w-full object-cover grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700" 
+                      />
+                      <div className="absolute inset-0 ring-1 ring-inset ring-white/5 pointer-events-none" />
                     </Link>
 
-                    <div className="flex-1 min-w-0">
-                      <Link to={`/product/${item.product}`}>
-                        <h3 className="font-bold text-gray-900 truncate text-base hover:text-secondary transition-colors">{item.name}</h3>
-                      </Link>
-                      <div className="flex flex-wrap gap-3 items-center mt-2">
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-gray-400">Color</span>
-                          <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-lg font-bold border border-gray-200">{item.color}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-gray-400">Size</span>
-                          <span className="text-xs px-2 py-0.5 bg-secondary/10 text-secondary rounded-lg font-bold border border-secondary/10 uppercase">{item.size}</span>
-                        </div>
-                        {item.adjusted && (
-                          <span className="text-[10px] font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200">
-                            Adjusted to Stock
-                          </span>
-                        )}
-                        {item.stock <= 3 && item.stock > 0 && (
-                          <span className="text-[10px] font-bold bg-red-50 text-red-600 px-2 py-0.5 rounded-full border border-red-100 italic">
-                            Only {item.stock} left
-                          </span>
-                        )}
+                    <div className="flex-1 min-w-0 text-center sm:text-left space-y-4">
+                      <div>
+                        <Link to={`/product/${item.product}`}>
+                          <h3 className="font-serif text-2xl italic hover:text-accent transition-colors leading-tight">{item.name}</h3>
+                        </Link>
+                        <p className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase mt-2">Hannvis Certified</p>
                       </div>
-                      <p className="text-xl font-black text-gray-900 mt-2">${(item.price * item.qty).toFixed(2)}</p>
-                      {item.qty > 1 && <p className="text-xs text-gray-400 font-medium">${item.price.toFixed(2)} each</p>}
+                      
+                      <div className="flex flex-wrap justify-center sm:justify-start gap-6 font-mono text-[10px] text-accent/60">
+                        <div className="flex items-center gap-2">
+                          <span className="uppercase tracking-widest text-[9px] text-text-muted opacity-40">Palette:</span>
+                          <span className="uppercase tracking-widest">{item.color}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="uppercase tracking-widest text-[9px] text-text-muted opacity-40">Measurement:</span>
+                          <span className="uppercase tracking-widest">{item.size}</span>
+                        </div>
+                      </div>
+
+                      {item.adjusted && (
+                        <div className="inline-block px-3 py-1 bg-accent/5 border border-accent/10 text-accent text-[9px] font-bold uppercase tracking-widest italic">
+                          Inventory Adjusted
+                        </div>
+                      )}
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      {/* Qty stepper */}
-                      <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-lg p-1">
-                        <button
-                          type="button"
-                          onClick={() => item.qty > 1 ? addToCartHandler(item, item.qty - 1) : removeFromCartHandler(item)}
-                          className="h-7 w-7 rounded-md flex items-center justify-center hover:bg-white hover:shadow-sm transition-all text-gray-600 font-bold text-base"
-                        >−</button>
-                        <span className="w-8 text-center text-sm font-bold text-gray-900">{item.qty}</span>
-                        <button
-                          type="button"
-                          onClick={() => addToCartHandler(item, Math.min(item.stock || 10, 10, item.qty + 1))}
-                          className="h-7 w-7 rounded-md flex items-center justify-center hover:bg-white hover:shadow-sm transition-all text-gray-600 font-bold text-base disabled:opacity-30 disabled:cursor-not-allowed"
-                          disabled={item.qty >= Math.min(item.stock || 10, 10)}
-                        >+</button>
+                    <div className="flex flex-col items-center sm:items-end gap-6 w-full sm:w-auto">
+                      <div className="text-xl font-mono text-accent">
+                        ${(item.price * item.qty).toFixed(2)}
                       </div>
 
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        type="button"
-                        onClick={() => removeFromCartHandler(item)}
-                        className="h-9 w-9 rounded-full text-gray-300 hover:text-red-500 hover:bg-red-50 flex items-center justify-center transition-all"
-                        title="Remove item"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </motion.button>
+                      <div className="flex items-center gap-8">
+                        {/* Luxury Stepper */}
+                        <div className="flex items-center gap-6">
+                          <button
+                            type="button"
+                            onClick={() => item.qty > 1 ? addToCartHandler(item, item.qty - 1) : removeFromCartHandler(item)}
+                            className="text-text-muted hover:text-accent transition-colors font-serif italic text-2xl"
+                          >−</button>
+                          <span className="w-6 text-center text-sm font-mono">{item.qty}</span>
+                          <button
+                            type="button"
+                            onClick={() => addToCartHandler(item, Math.min(item.stock || 10, 10, item.qty + 1))}
+                            className="text-text-muted hover:text-accent transition-colors font-serif italic text-2xl disabled:opacity-20"
+                            disabled={item.qty >= Math.min(item.stock || 10, 10)}
+                          >+</button>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => removeFromCartHandler(item)}
+                          className="text-text-muted hover:text-error transition-colors p-2"
+                        >
+                          <Trash2 size={14} strokeWidth={1.5} />
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
             </div>
+            
+            <Link to="/" className="inline-block text-[10px] tracking-[0.3em] font-bold uppercase text-text-muted hover:text-accent transition-colors pb-1 border-b border-transparent hover:border-accent">
+               ← Resume Procurement
+            </Link>
           </div>
 
-          {/* Order Summary */}
-          <div className="lg:w-1/3 w-full">
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.08)] p-6 sticky top-24">
-              <h2 className="text-lg font-black text-gray-900 mb-6 pb-4 border-b border-gray-100">Order Summary</h2>
+          {/* Order Summary (Glassmorphic) */}
+          <div className="lg:w-1/3 w-full sticky top-32">
+            <div className="bg-surface/50 backdrop-blur-2xl border border-white/5 p-10 space-y-10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)]">
+              <h2 className="text-[10px] tracking-[0.4em] font-bold text-accent uppercase pb-6 border-b border-white/5">Order Overview</h2>
               
-              <div className="space-y-3 mb-6">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Subtotal ({totalItems} items)</span>
-                  <span className="font-semibold text-gray-800">${subtotal.toFixed(2)}</span>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between text-[11px] tracking-widest font-bold uppercase">
+                  <span className="text-text-muted">Procured Subtotal</span>
+                  <span className="text-text-primary text-sm font-mono">${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">Shipping</span>
-                  <span className="font-semibold text-emerald-600">Free</span>
+                <div className="flex items-center justify-between text-[11px] tracking-widest font-bold uppercase">
+                  <span className="text-text-muted">Transport</span>
+                  <span className="text-success/60 italic font-serif">Complimentary</span>
                 </div>
-                <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
-                  <span className="font-black text-gray-900 text-base">Total</span>
-                  <span className="font-black text-gray-900 text-xl">${subtotal.toFixed(2)}</span>
+                <div className="flex items-center justify-between text-[11px] tracking-widest font-bold uppercase">
+                  <span className="text-text-muted">Total Tax</span>
+                  <span className="text-text-primary text-sm font-mono">$0.00</span>
+                </div>
+                
+                <div className="pt-8 border-t border-white/5 flex items-end justify-between">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-bold text-text-muted/40 uppercase tracking-[0.3em]">Final Amount</span>
+                    <div className="text-3xl font-mono text-accent leading-none">${subtotal.toFixed(2)}</div>
+                  </div>
                 </div>
               </div>
 
-              <Button
-                className="w-full text-base rounded-xl"
-                size="lg"
+              <button
+                className="w-full h-16 bg-accent text-base-black text-[11px] font-bold uppercase tracking-[0.3em] group relative overflow-hidden active:scale-[0.98] transition-all disabled:opacity-30"
                 onClick={checkoutHandler}
+                disabled={isInitiating}
               >
-                Proceed to Checkout <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+                <div className="relative z-10 flex items-center justify-center gap-3">
+                  {isInitiating ? 'Processing...' : 'Confirm Selection'}
+                  <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform duration-500" strokeWidth={3} />
+                </div>
+                <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-boutique" />
+              </button>
 
-              <Link to="/" className="block text-center mt-4 text-sm text-secondary font-semibold hover:underline">
-                ← Continue Shopping
-              </Link>
+              <div className="space-y-4 pt-6 text-center">
+                <p className="text-[9px] text-text-muted/40 uppercase tracking-[0.2em] italic">
+                  Secure checkout powered by Hannvis Escrow
+                </p>
+              </div>
             </div>
           </div>
         </div>

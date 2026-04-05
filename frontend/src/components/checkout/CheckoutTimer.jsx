@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Timer, AlertCircle } from 'lucide-react';
+import { Timer, AlertCircle, X } from 'lucide-react';
 import { useGetCheckoutStatusQuery, useCancelCheckoutMutation } from '../../features/checkout/checkoutApiSlice.js';
 
 export const CheckoutTimer = () => {
@@ -66,23 +66,31 @@ export const CheckoutTimer = () => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -50, opacity: 0 }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center p-2"
+        className="fixed top-0 left-0 right-0 z-[100] flex justify-center pt-2"
       >
-        <div className={`flex items-center gap-3 px-6 py-2 rounded-full shadow-lg border backdrop-blur-md ${
+        <div className={`flex items-center gap-6 px-10 py-3 rounded-full shadow-[0_15px_40px_-5px_rgba(0,0,0,0.4)] border backdrop-blur-3xl transition-all duration-700 ${
           timeLeft < 60 
-            ? 'bg-red-50 border-red-200 text-red-700' 
-            : 'bg-white/90 border-gray-100 text-gray-700'
+            ? 'bg-error/10 border-error/20 text-error' 
+            : 'bg-surface/60 border-white/5 text-accent'
         }`}>
-          <Timer className={`w-4 h-4 ${timeLeft < 60 ? 'animate-pulse' : ''}`} />
-          <span className="text-sm font-bold tracking-tight">
-            Checkout expires in: <span className="font-mono">{minutes}:{seconds < 10 ? `0${seconds}` : seconds}</span>
-          </span>
-          <div className="w-[1px] h-4 bg-gray-200 mx-1" />
+          <div className="flex items-center gap-3">
+            <Timer className={`w-3.5 h-3.5 ${timeLeft < 60 ? 'animate-pulse' : 'opacity-40'}`} strokeWidth={1.5} />
+            <span className="text-[10px] tracking-[0.3em] font-bold uppercase">
+              Reservation Expires: 
+            </span>
+            <span className="font-mono text-sm tracking-tighter tabular-nums bg-accent/5 px-3 py-1 rounded border border-accent/10">
+              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+            </span>
+          </div>
+          
+          <div className="w-[1px] h-4 bg-white/5 mx-2" />
+          
           <button 
             onClick={cancelHandler}
-            className="text-[10px] uppercase font-black tracking-widest hover:text-red-500 transition-colors"
+            className="text-[9px] uppercase font-bold tracking-[0.3em] text-text-muted hover:text-error transition-all duration-300 group flex items-center gap-2"
           >
-            Cancel
+            Release Reservation
+            <X className="w-3 h-3 group-hover:rotate-90 transition-transform" />
           </button>
         </div>
       </motion.div>

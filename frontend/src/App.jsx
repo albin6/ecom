@@ -21,6 +21,7 @@ import { AdminLayout } from './pages/admin/AdminLayout.jsx';
 import { VerifyEmail } from './pages/VerifyEmail.jsx';
 import { OrderDetails } from './pages/OrderDetails.jsx';
 import { Navbar } from './components/layout/Navbar.jsx';
+import { Footer } from './components/layout/Footer.jsx';
 import { VerificationBanner } from './components/layout/VerificationBanner.jsx';
 import { CartSync } from './components/cart/CartSync.jsx';
 
@@ -28,14 +29,14 @@ function App() {
   return (
     <Router>
       <CartSync />
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <header className="bg-white shadow sticky top-0 z-50 flex flex-col w-full">
+      <div className="min-h-screen bg-base-black flex flex-col selection:bg-accent/30 selection:text-accent">
+        <header className="fixed top-0 left-0 w-full z-[100] border-b border-white/5 bg-base-black/60 backdrop-blur-xl">
           <VerificationBanner />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-12 w-full">
             <Navbar />
           </div>
         </header>
-        <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-6">
+        <main className="flex-grow pt-32 pb-16 max-w-[1440px] mx-auto px-6 lg:px-12 w-full">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<ProductListing />} />
@@ -75,6 +76,7 @@ function App() {
             <Route path="/order/:id" element={<OrderDetails />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );

@@ -8,15 +8,15 @@ export function cn(...inputs) {
 }
 
 export const Button = React.forwardRef(({ className, variant = 'primary', size = 'md', isLoading, children, ...props }, ref) => {
-  const baseStyles = 'inline-flex items-center justify-center rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-[&:not(:focus-visible)]:outline-none disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] select-none';
+  const baseStyles = 'inline-flex items-center justify-center font-sans uppercase tracking-[0.08em] text-[10px] font-bold transition-all duration-[250ms] ease-[0.25,0.1,0.25,1] disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] select-none';
   
   const variants = {
-    primary: 'bg-primary text-white shadow-md hover:bg-slate-800 hover:shadow-lg',
-    secondary: 'bg-gradient-to-r from-secondary to-indigo-500 text-white shadow-md hover:from-indigo-700 hover:to-indigo-600 hover:shadow-lg',
-    outline: 'border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-900',
-    ghost: 'hover:bg-gray-100 text-gray-900',
-    danger: 'bg-red-500 text-white shadow-sm hover:bg-red-600',
-    glass: 'bg-white/50 backdrop-blur-sm border border-white/40 text-gray-900 hover:bg-white/70 shadow-sm'
+    primary: 'bg-accent text-base-black hover:bg-white hover:text-black shadow-[0_0_20px_rgba(201,169,110,0.2)]',
+    secondary: 'bg-surface text-text-primary border border-border-mute hover:border-accent hover:text-accent',
+    outline: 'border border-accent text-accent hover:bg-accent hover:text-base-black',
+    ghost: 'text-text-primary hover:bg-surface/40',
+    danger: 'bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40',
+    glass: 'bg-surface/20 backdrop-blur-md border border-border-mute text-text-primary hover:bg-surface/40'
   };
 
   const sizes = {

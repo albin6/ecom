@@ -43,77 +43,130 @@ export const Profile = () => {
   };
 
   return (
-    <div className="py-6 flex flex-col md:flex-row gap-10">
-      <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="md:w-1/3 space-y-6">
-        <h2 className="text-2xl font-bold text-gray-900">User Profile</h2>
-        <div className="bg-white p-6 rounded-lg shadow-sm border space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} />
+    <div className="max-w-7xl mx-auto py-16 px-6">
+      <header className="mb-16 border-b border-white/5 pb-8">
+        <h1 className="font-display text-5xl mb-4 tracking-tight">Archival Record</h1>
+        <p className="text-text-muted text-xs uppercase tracking-[0.3em] font-bold">Personal Dossier — v.1.0.4</p>
+      </header>
+
+      <div className="flex flex-col lg:flex-row gap-16">
+        {/* Profile Management Section */}
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          className="lg:w-1/3"
+        >
+          <div className="glass-panel p-10 border border-white/10">
+            <h3 className="font-display text-2xl mb-10 tracking-tight">Credentials</h3>
+            
+            <form className="space-y-8">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Legal Identity</label>
+                <Input value={name} onChange={(e) => setName(e.target.value)} className="bg-transparent" />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Digital Alias</label>
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-transparent" />
+              </div>
+              
+              <Button className="w-full h-12 text-[10px] tracking-[0.2em] mt-4">Update Archives</Button>
+              
+              <div className="pt-10 border-t border-white/5 space-y-4">
+                {userInfo && userInfo.role === 'admin' && (
+                  <Link to="/admin" className="block">
+                    <Button variant="outline" className="w-full h-12 text-[10px] tracking-[0.2em]">Management Studio</Button>
+                  </Link>
+                )}
+                <Button 
+                  variant="ghost" 
+                  className="w-full h-12 text-[10px] tracking-[0.2em] text-red-400 hover:text-red-300" 
+                  onClick={logoutHandler}
+                >
+                  Terminate Session
+                </Button>
+              </div>
+            </form>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        </motion.div>
+
+        {/* Temporal History (Orders) Section */}
+        <motion.div 
+          initial={{ opacity: 0, x: 30 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+          className="lg:w-2/3"
+        >
+          <div className="flex items-center justify-between mb-10">
+            <h3 className="font-display text-2xl tracking-tight">Temporal History</h3>
+            <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest bg-surface/40 px-3 py-1 rounded-full border border-white/5">
+              {orders.length} Records
+            </span>
           </div>
-          <Button className="w-full">Update Profile</Button>
-          
-          <div className="pt-4 border-t mt-4">
-            <Button variant="danger" className="w-full" onClick={logoutHandler}>Sign Out</Button>
-          </div>
-          
-          {userInfo && userInfo.role === 'admin' && (
-            <div className="pt-4 border-t mt-4">
-               <Link to="/admin">
-                 <Button variant="secondary" className="w-full">Admin Dashboard</Button>
-               </Link>
+
+          {isLoading ? (
+            <div className="h-64 flex items-center justify-center bg-surface/20 rounded-2xl border border-white/5">
+              <Loader />
+            </div>
+          ) : error ? (
+            <Message variant="danger">{error?.data?.message || 'Archival Retrieval Failure'}</Message>
+          ) : orders.length === 0 ? (
+            <div className="glass-panel p-20 text-center border-dashed border-white/10">
+              <p className="text-text-muted text-sm italic italic-editorial">No historical acquisitions found in this archive.</p>
+              <Link to="/" className="inline-block mt-6 text-accent text-xs font-bold uppercase tracking-widest hover:text-white transition-colors">
+                Begin Collection
+              </Link>
+            </div>
+          ) : (
+            <div className="glass-panel overflow-hidden border border-white/10">
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead>
+                    <tr className="border-b border-white/5 bg-white/[0.02]">
+                      <th className="px-8 py-5 text-left text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Reference</th>
+                      <th className="px-8 py-5 text-left text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Timestamp</th>
+                      <th className="px-8 py-5 text-left text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Value</th>
+                      <th className="px-8 py-5 text-left text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Settlement</th>
+                      <th className="px-8 py-5 text-right text-[10px] font-bold text-accent uppercase tracking-[0.2em]">Manifest</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {orders.map((order) => (
+                      <tr key={order._id} className="hover:bg-white/[0.01] transition-colors group">
+                        <td className="px-8 py-6 whitespace-nowrap">
+                          <div className="font-mono text-xs text-text-primary tracking-wider uppercase">
+                            #{order.orderId || order._id.substring(18).toUpperCase()}
+                          </div>
+                        </td>
+                        <td className="px-8 py-6 whitespace-nowrap text-xs text-text-muted">
+                          {order.createdAt.substring(0, 10).replace(/-/g, '.')}
+                        </td>
+                        <td className="px-8 py-6 whitespace-nowrap text-xs text-text-primary font-bold">
+                          ${order.totalPrice.toLocaleString()}
+                        </td>
+                        <td className="px-8 py-6 whitespace-nowrap">
+                          {order.isPaid ? (
+                            <span className="text-[9px] font-black bg-emerald-900/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-900/30 uppercase tracking-widest">Authorized</span>
+                          ) : (
+                            <span className="text-[9px] font-black bg-red-900/10 text-red-400 px-2 py-0.5 rounded border border-red-900/20 uppercase tracking-widest">Pending</span>
+                          )}
+                        </td>
+                        <td className="px-8 py-6 whitespace-nowrap text-right">
+                          <Link to={`/order/${order._id}`}>
+                            <button className="text-[10px] font-bold text-accent hover:text-white transition-all uppercase tracking-widest group-hover:translate-x-1 duration-300">
+                              Review Manifest →
+                            </button>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
-        </div>
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="md:w-2/3">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">My Orders</h2>
-        {isLoading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">{error?.data?.message || 'Failed to fetch orders'}</Message>
-        ) : (
-          <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Paid</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Delivered</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {orders.map((order) => (
-                  <tr key={order._id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-secondary font-mono">{order.orderId || order._id.substring(18).toUpperCase()}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.createdAt.substring(0, 10)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.totalPrice}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {order.isPaid ? order.paidAt.substring(0, 10) : <span className="text-red-500 font-medium">No</span>}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {order.isDelivered ? order.deliveredAt.substring(0, 10) : <span className="text-red-500 font-medium">No</span>}
-                    </td>
-                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                       <Link to={`/order/${order._id}`}>
-                         <Button variant="ghost" size="sm" className="font-bold text-secondary">Details</Button>
-                       </Link>
-                     </td>
-                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
   );
 };

@@ -48,58 +48,79 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-4xl grid md:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl">
-        
-        {/* Left decorative panel */}
-        <div className="hidden md:flex flex-col justify-between bg-gradient-to-b from-secondary to-indigo-800 p-10 text-white">
-          <div className="text-2xl font-black tracking-tight">Hannvis</div>
-          <div>
-            <h2 className="text-4xl font-black leading-tight mb-4">Welcome back.</h2>
-            <p className="text-indigo-200 text-lg leading-relaxed">Sign in to continue your premium shopping experience.</p>
-          </div>
-          <div className="space-y-3">
-            {['Free returns on all orders', 'Exclusive member discounts', 'Priority customer support'].map(t => (
-              <div key={t} className="flex items-center gap-2 text-indigo-200 text-sm">
-                <div className="h-1.5 w-1.5 rounded-full bg-accent" />
-                {t}
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="relative min-h-screen flex items-center justify-center py-20 px-6 overflow-hidden">
+      {/* Editorial Background Backdrop */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-[10000ms] ease-linear scale-110 opacity-40 bg-[url('/images/auth-bg.png')]"
+        style={{ filter: 'grayscale(0.5) contrast(1.1)' }}
+      />
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-base-black/80 via-transparent to-base-black" />
 
-        {/* Right auth form */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
-          className="bg-white p-8 md:p-12 flex flex-col justify-center"
-        >
-          <h2 className="text-2xl font-black text-gray-900 mb-2">Sign in</h2>
-          <p className="text-gray-500 text-sm mb-8">
-            New here?{' '}
-            <Link to={redirect ? `/register?redirect=${redirect}` : '/register'} className="text-secondary font-semibold hover:underline">
-              Create an account
-            </Link>
-          </p>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        className="relative z-10 w-full max-w-[440px]"
+      >
+        <div className="glass-panel p-10 md:p-14 border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]">
+          <header className="mb-12 text-center">
+            <h1 className="font-display text-4xl mb-3 tracking-tight">Archive</h1>
+            <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-bold">User Sanctuary — v.1.0</p>
+          </header>
 
-          {error && <Message variant="danger" className="mb-5">{error?.data?.message || 'Login failed'}</Message>}
+          {error && (
+            <Message variant="danger" className="mb-8">
+              {error?.data?.message || 'Verification Error'}
+            </Message>
+          )}
 
-          <form onSubmit={submitHandler} className="space-y-5">
-            <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Email Address</label>
-              <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <form onSubmit={submitHandler} className="space-y-8">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Email Identifier</label>
+              <Input 
+                type="email" 
+                placeholder="identity@hannvis.local" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+                className="bg-transparent"
+              />
             </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Password</label>
-              <Input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Security Token</label>
+              <Input 
+                type="password" 
+                placeholder="••••••••" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+                className="bg-transparent"
+              />
             </div>
-            <Button type="submit" className="w-full rounded-xl mt-2" size="lg" isLoading={isLoading}>
-              Sign In
+
+            <Button 
+              type="submit" 
+              className="w-full h-14 mt-6 text-xs tracking-[0.2em]" 
+              size="lg" 
+              isLoading={isLoading}
+            >
+              Authenticate Portal
             </Button>
           </form>
-        </motion.div>
-      </div>
+
+          <footer className="mt-12 pt-8 border-t border-white/5 flex flex-col items-center gap-4">
+            <p className="text-text-muted text-[11px]">
+              No active identity?{' '}
+              <Link 
+                to={redirect ? `/register?redirect=${redirect}` : '/register'} 
+                className="text-accent font-bold hover:text-white transition-colors ml-1 uppercase tracking-wider"
+              >
+                Establish Access
+              </Link>
+            </p>
+          </footer>
+        </div>
+      </motion.div>
     </div>
   );
 };

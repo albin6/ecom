@@ -45,67 +45,99 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-[85vh] flex items-center justify-center py-12 px-4">
-      <div className="w-full max-w-4xl grid md:grid-cols-2 rounded-3xl overflow-hidden shadow-2xl">
-        
-        {/* Left panel */}
-        <div className="hidden md:flex flex-col justify-between bg-gradient-to-b from-primary to-slate-700 p-10 text-white">
-          <div className="text-2xl font-black tracking-tight">Hannvis</div>
-          <div>
-            <h2 className="text-4xl font-black leading-tight mb-4">Join the community.</h2>
-            <p className="text-gray-300 text-lg leading-relaxed">Create your account and unlock exclusive access to our curated collections.</p>
-          </div>
-          <div className="space-y-3">
-            {['Exclusive early access', 'Member-only discounts', 'Seamless order tracking'].map(t => (
-              <div key={t} className="flex items-center gap-2 text-gray-400 text-sm">
-                <div className="h-1.5 w-1.5 rounded-full bg-accent" />
-                {t}
+    <div className="relative min-h-screen flex items-center justify-center py-20 px-6 overflow-hidden">
+      {/* Editorial Background Backdrop */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-[10000ms] ease-linear scale-110 opacity-30 bg-[url('/images/auth-bg.png')]"
+        style={{ filter: 'grayscale(0.6) brightness(0.8)' }}
+      />
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-base-black/90 via-transparent to-base-black" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+        className="relative z-10 w-full max-w-[480px]"
+      >
+        <div className="glass-panel p-10 md:p-14 border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.7)]">
+          <header className="mb-12 text-center">
+            <h1 className="font-display text-4xl mb-3 tracking-tight">Identity</h1>
+            <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-bold">New Establishment — v.1.0</p>
+          </header>
+
+          {message && <Message variant="danger" className="mb-6">{message}</Message>}
+          {error && <Message variant="danger" className="mb-6">{error?.data?.message || 'Registration Error'}</Message>}
+
+          <form onSubmit={submitHandler} className="space-y-6">
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Full Name</label>
+              <Input 
+                placeholder="John Doe" 
+                value={name} 
+                onChange={(e) => setName(e.target.value)} 
+                required 
+                className="bg-transparent"
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Email Address</label>
+              <Input 
+                type="email" 
+                placeholder="identity@hannvis.local" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+                className="bg-transparent"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Password</label>
+                <Input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  required 
+                  className="bg-transparent"
+                />
               </div>
-            ))}
-          </div>
-        </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Confirm</label>
+                <Input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  value={confirmPassword} 
+                  onChange={(e) => setConfirmPassword(e.target.value)} 
+                  required 
+                  className="bg-transparent"
+                />
+              </div>
+            </div>
 
-        {/* Right form */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
-          className="bg-white p-8 md:p-12 flex flex-col justify-center"
-        >
-          <h2 className="text-2xl font-black text-gray-900 mb-2">Create account</h2>
-          <p className="text-gray-500 text-sm mb-8">
-            Already a member?{' '}
-            <Link to={redirect ? `/login?redirect=${redirect}` : '/login'} className="text-secondary font-semibold hover:underline">
-              Sign in
-            </Link>
-          </p>
-
-          {message && <Message variant="danger" className="mb-5">{message}</Message>}
-          {error && <Message variant="danger" className="mb-5">{error?.data?.message || 'Registration failed'}</Message>}
-
-          <form onSubmit={submitHandler} className="space-y-4">
-            <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Full Name</label>
-              <Input placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} required />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Email Address</label>
-              <Input type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Password</label>
-              <Input type="password" placeholder="Min. 8 characters" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Confirm Password</label>
-              <Input type="password" placeholder="Repeat your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
-            </div>
-            <Button type="submit" className="w-full rounded-xl mt-2" size="lg" isLoading={isLoading}>
-              Create Account
+            <Button 
+              type="submit" 
+              className="w-full h-14 mt-6 text-xs tracking-[0.2em]" 
+              size="lg" 
+              isLoading={isLoading}
+            >
+              Establish Identity
             </Button>
           </form>
-        </motion.div>
-      </div>
+
+          <footer className="mt-12 pt-8 border-t border-white/5 text-center">
+            <p className="text-text-muted text-[11px]">
+              Already established?{' '}
+              <Link 
+                to={redirect ? `/login?redirect=${redirect}` : '/login'} 
+                className="text-accent font-bold hover:text-white transition-colors ml-1 uppercase tracking-wider"
+              >
+                Sign In
+              </Link>
+            </p>
+          </footer>
+        </div>
+      </motion.div>
     </div>
   );
 };

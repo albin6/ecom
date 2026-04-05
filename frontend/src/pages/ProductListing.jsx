@@ -11,21 +11,35 @@ import { Button } from '../components/ui/Button.jsx';
 import { Search, SlidersHorizontal, ShoppingCart, X, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 
 const SORT_OPTIONS = [
-  { value: '-createdAt', label: 'Newest First' },
-  { value: 'price',      label: 'Price: Low → High' },
-  { value: '-price',     label: 'Price: High → Low' },
-  { value: 'name',       label: 'Name: A → Z' },
-  { value: '-name',      label: 'Name: Z → A' },
+  { value: '-createdAt', label: 'LATEST ARRIVALS' },
+  { value: 'price',      label: 'PRICE: LOW → HIGH' },
+  { value: '-price',     label: 'PRICE: HIGH → LOW' },
+  { value: 'name',       label: 'NAME: A → Z' },
+  { value: '-name',      label: 'NAME: Z → A' },
 ];
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  show:   { opacity: 1, transition: { staggerChildren: 0.06 } }
+  show: { 
+    opacity: 1, 
+    transition: { 
+      staggerChildren: 0.1,
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1]
+    } 
+  }
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  show:   { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 28 } }
+  hidden: { opacity: 0, y: 15 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1]
+    } 
+  }
 };
 
 export const ProductListing = () => {
@@ -100,16 +114,20 @@ export const ProductListing = () => {
   };
 
   return (
-    <div className="py-8">
-      {/* ─── Page Header ─── */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-black text-gray-900 tracking-tight">All Products</h1>
-        {data && <p className="text-gray-500 text-sm mt-1">{data.total} products found</p>}
+    <div className="py-12 bg-base-black min-h-screen">
+      {/* Editorial Header */}
+      <div className="mb-16 border-b border-white/5 pb-12 flex flex-col items-center text-center">
+        <h1 className="text-5xl lg:text-7xl font-serif mb-4 tracking-tight italic">The Collection</h1>
+        {data && (
+          <p className="text-text-muted text-[10px] uppercase tracking-[0.4em] font-bold">
+            Curating {data.total} exceptional pieces
+          </p>
+        )}
       </div>
 
-      <div className="flex gap-8 items-start">
-        {/* ─── Desktop Sidebar ─── */}
-        <aside className="hidden lg:block w-64 flex-shrink-0 sticky top-24">
+      <div className="flex flex-col lg:flex-row gap-16 items-start">
+        {/* Editorial Sidebar */}
+        <aside className="hidden lg:block w-72 flex-shrink-0 sticky top-32">
           <FilterPanel
             categories={categories}
             category={category}
@@ -122,23 +140,25 @@ export const ProductListing = () => {
           />
         </aside>
 
-        {/* ─── Mobile Sidebar Drawer ─── */}
+        {/* Mobile Filter Drawer (Logic Preserved, Styled Luxury) */}
         <AnimatePresence>
           {sidebarOpen && (
             <>
               <motion.div
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/30 z-40 lg:hidden"
+                className="fixed inset-0 bg-base-black/80 backdrop-blur-sm z-[110] lg:hidden"
                 onClick={() => setSidebarOpen(false)}
               />
               <motion.div
-                initial={{ x: -320 }} animate={{ x: 0 }} exit={{ x: -320 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="fixed left-0 top-0 bottom-0 w-72 bg-white z-50 shadow-2xl p-6 overflow-y-auto lg:hidden"
+                initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                className="fixed left-0 top-0 bottom-0 w-80 bg-surface z-[120] p-8 lg:hidden flex flex-col"
               >
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="font-black text-lg">Filters</h3>
-                  <button onClick={() => setSidebarOpen(false)} className="text-gray-400 hover:text-gray-700"><X size={20} /></button>
+                <div className="flex justify-between items-center mb-12">
+                  <h3 className="font-serif text-2xl">Collection Filters</h3>
+                  <button onClick={() => setSidebarOpen(false)} className="text-text-primary hover:text-accent transition-colors">
+                    <X size={20} strokeWidth={1} />
+                  </button>
                 </div>
                 <FilterPanel
                   categories={categories}
@@ -155,69 +175,69 @@ export const ProductListing = () => {
           )}
         </AnimatePresence>
 
-        {/* ─── Main Content ─── */}
-        <div className="flex-1 min-w-0">
-          {/* Toolbar */}
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            {/* Search */}
-            <div className="relative flex-1 min-w-[200px]">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+        {/* Main Content Area */}
+        <div className="flex-1 min-w-0 w-full">
+          {/* Editorial Toolbar */}
+          <div className="flex flex-col sm:flex-row items-end gap-8 mb-12 border-b border-white/5 pb-8">
+            <div className="relative flex-1 group w-full">
               <input
                 type="text"
                 value={keyword}
                 onChange={e => setKeyword(e.target.value)}
-                placeholder="Search products..."
-                className="w-full h-10 pl-9 pr-4 rounded-lg border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary shadow-sm transition-all"
+                placeholder="PROCURING PIECES..."
+                className="input-editorial text-[10px] tracking-widest placeholder:text-text-muted/30 pb-4 h-auto"
               />
-              {keyword && (
-                <button onClick={() => { setKeyword(''); setDebouncedKeyword(''); setPage(1); }} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                  <X size={14} />
+              <Search className="absolute right-0 top-0 text-text-muted/40 group-focus-within:text-accent transition-colors" size={12} />
+            </div>
+
+            <div className="flex items-center gap-6 w-full sm:w-auto">
+              {/* Luxury Sort */}
+              <div className="relative group">
+                <select
+                  value={sort}
+                  onChange={e => applySort(e.target.value)}
+                  className="bg-transparent text-[10px] tracking-[0.2em] font-bold uppercase text-text-muted focus:text-accent focus:outline-none appearance-none pr-8 cursor-pointer border-none"
+                >
+                  {SORT_OPTIONS.map(o => <option key={o.value} value={o.value} className="bg-surface">{o.label}</option>)}
+                </select>
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted/40 group-hover:text-accent transition-colors">
+                  <SlidersHorizontal size={12} />
+                </div>
+              </div>
+
+              {/* Mobile filter toggle */}
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden h-10 flex items-center gap-2 text-[10px] tracking-widest font-bold uppercase text-accent"
+              >
+                Refine
+              </button>
+
+              {/* Clear Filters (Editorial style) */}
+              {hasFilters && (
+                <button
+                  onClick={clearFilters}
+                  className="text-error/60 hover:text-error text-[9px] font-bold uppercase tracking-widest transition-colors flex items-center gap-2"
+                >
+                  <X size={10} /> Reset
                 </button>
               )}
             </div>
-
-            {/* Sort */}
-            <select
-              value={sort}
-              onChange={e => applySort(e.target.value)}
-              className="h-10 px-3 pr-8 rounded-lg border border-gray-200 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary shadow-sm transition-all appearance-none cursor-pointer"
-            >
-              {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
-
-            {/* Mobile filter toggle */}
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="lg:hidden h-10 px-4 rounded-lg border border-gray-200 bg-white flex items-center gap-2 text-sm font-semibold text-gray-600 hover:border-gray-300 shadow-sm"
-            >
-              <SlidersHorizontal size={15} /> Filters
-            </button>
-
-            {/* Clear Filters badge */}
-            {hasFilters && (
-              <motion.button
-                initial={{ scale: 0 }} animate={{ scale: 1 }}
-                onClick={clearFilters}
-                className="h-10 px-4 rounded-lg bg-red-50 border border-red-200 text-red-600 text-sm font-semibold flex items-center gap-1.5 hover:bg-red-100"
-              >
-                <X size={14} /> Clear Filters
-              </motion.button>
-            )}
           </div>
 
-          {/* Active filter chips */}
+          {/* Active Chips (Minimalist) */}
           {(category || minPrice || maxPrice) && (
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-4 mb-8">
               {category && (
-                <span className="flex items-center gap-1 px-3 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full text-xs font-semibold">
+                <span className="flex items-center gap-2 text-[10px] tracking-widest text-accent font-bold uppercase border border-accent/20 px-3 py-1 rounded-sm">
                   {categories.find(c => c._id === category)?.name || 'Category'}
-                  <button onClick={() => applyCategory('')} className="ml-1 hover:text-indigo-900"><X size={11} /></button>
+                  <button onClick={() => applyCategory('')} className="hover:text-text-primary transition-colors"><X size={10} /></button>
                 </span>
               )}
               {(minPrice || maxPrice) && (
-                <span className="flex items-center gap-1 px-3 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-full text-xs font-semibold">
+                <span className="flex items-center gap-2 text-[10px] tracking-widest text-accent font-bold uppercase border border-accent/20 px-3 py-1 rounded-sm">
                   ${minPrice || 0} – ${maxPrice || '∞'}
-                  <button onClick={() => { setMinPrice(''); setMaxPrice(''); setPage(1); }} className="ml-1 hover:text-purple-900"><X size={11} /></button>
+                  <button onClick={() => { setMinPrice(''); setMaxPrice(''); setPage(1); }} className="hover:text-text-primary transition-colors"><X size={10} /></button>
                 </span>
               )}
             </div>
@@ -225,73 +245,89 @@ export const ProductListing = () => {
 
           {/* ─── Product Grid ─── */}
           {isLoading ? (
-            <div className="py-24 flex justify-center"><Loader /></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-12">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="space-y-6">
+                  <div className="aspect-[4/5] skeleton-luxury" />
+                  <div className="space-y-3">
+                    <div className="h-4 w-3/4 skeleton-luxury" />
+                    <div className="h-4 w-1/4 skeleton-luxury" />
+                  </div>
+                </div>
+              ))}
+            </div>
           ) : error ? (
-            <Message variant="danger">{error?.data?.message || 'Failed to load products'}</Message>
+            <div className="p-12 border border-error/20 bg-error/5 text-error font-serif text-center italic">
+              The archive could not be accessed at this time.
+            </div>
           ) : data?.products?.length === 0 ? (
-            <div className="py-24 text-center">
-              <div className="text-5xl mb-4">🔍</div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">No products found</h3>
-              <p className="text-gray-500 mb-6">Try adjusting your search or filters.</p>
-              <Button variant="outline" onClick={clearFilters}>Clear All Filters</Button>
+            <div className="py-32 text-center">
+              <h3 className="font-serif text-3xl mb-4 italic">No remains found</h3>
+              <p className="text-text-muted text-[10px] uppercase tracking-[0.4em] mb-12">Try different search terms or collection filters</p>
+              <button 
+                onClick={clearFilters}
+                className="btn btn-secondary px-12 h-12"
+              >
+                Clear Archives
+              </button>
             </div>
           ) : (
-            <motion.div
-              key={`${debouncedKeyword}-${sort}-${category}-${minPrice}-${maxPrice}-${page}`}
-              variants={containerVariants}
-              initial="hidden"
-              animate="show"
-              className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 transition-opacity ${isFetching ? 'opacity-60 pointer-events-none' : ''}`}
-            >
-              {data.products.map(product => (
-                <ProductListCard
-                  key={product._id}
-                  product={product}
-                  onAddToCart={handleAddToCart}
-                  justAdded={addedId === product._id}
-                  userInfo={userInfo}
-                />
-              ))}
-            </motion.div>
-          )}
-
-          {/* ─── Pagination ─── */}
-          {data && data.pages > 1 && (
-            <div className="mt-10 flex items-center justify-center gap-2">
-              <button
-                disabled={page <= 1}
-                onClick={() => setPage(p => p - 1)}
-                className="h-9 w-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+            <>
+              <motion.div
+                key={`${debouncedKeyword}-${sort}-${category}-${minPrice}-${maxPrice}-${page}`}
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className={`grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-12 gap-y-20 transition-all duration-700 ${isFetching ? 'opacity-40 grayscale' : ''}`}
               >
-                <ChevronLeft size={16} />
-              </button>
+                {data.products.map((product, idx) => (
+                  <ProductListCard
+                    key={product._id}
+                    product={product}
+                    onAddToCart={handleAddToCart}
+                    justAdded={addedId === product._id}
+                    userInfo={userInfo}
+                    // Purely decorative index for layout variety
+                    isLarge={idx === 0 && page === 1 && !debouncedKeyword} 
+                  />
+                ))}
+              </motion.div>
 
-              {Array.from({ length: data.pages }, (_, i) => i + 1).map(p => (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  className={`h-9 w-9 rounded-lg text-sm font-bold transition-all ${
-                    p === page
-                      ? 'bg-secondary text-white shadow-md'
-                      : 'border border-gray-200 text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
+              {/* Luxury Pagination */}
+              {data.pages > 1 && (
+                <div className="mt-32 flex items-center justify-center gap-12 border-t border-white/5 pt-12">
+                  <button
+                    disabled={page <= 1}
+                    onClick={() => setPage(p => p - 1)}
+                    className="group flex items-center gap-4 text-[10px] tracking-[0.3em] font-bold uppercase text-text-muted disabled:opacity-20 transition-all hover:text-accent"
+                  >
+                    <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Prev
+                  </button>
 
-              <button
-                disabled={page >= data.pages}
-                onClick={() => setPage(p => p + 1)}
-                className="h-9 w-9 rounded-lg border border-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
-              >
-                <ChevronRight size={16} />
-              </button>
+                  <div className="flex gap-8">
+                    {Array.from({ length: data.pages }, (_, i) => i + 1).map(p => (
+                      <button
+                        key={p}
+                        onClick={() => setPage(p)}
+                        className={`text-sm font-serif transition-all ${
+                          p === page ? 'text-accent scale-150 italic' : 'text-text-muted hover:text-text-primary'
+                        }`}
+                      >
+                        {String(p).padStart(2, '0')}
+                      </button>
+                    ))}
+                  </div>
 
-              <span className="ml-3 text-xs text-gray-400 font-medium">
-                Page {page} of {data.pages}
-              </span>
-            </div>
+                  <button
+                    disabled={page >= data.pages}
+                    onClick={() => setPage(p => p + 1)}
+                    className="group flex items-center gap-4 text-[10px] tracking-[0.3em] font-bold uppercase text-text-muted disabled:opacity-20 transition-all hover:text-accent"
+                  >
+                    Next <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -299,33 +335,30 @@ export const ProductListing = () => {
   );
 };
 
-/* ─────────────── Sub-components ─────────────── */
-
 const FilterPanel = ({ categories, category, minPrice, maxPrice, hasFilters, onCategoryChange, onPriceApply, onClearFilters }) => {
   const [localMin, setLocalMin] = useState(minPrice);
   const [localMax, setLocalMax] = useState(maxPrice);
 
-  // Sync local price inputs when parent resets
   useEffect(() => { setLocalMin(minPrice); }, [minPrice]);
   useEffect(() => { setLocalMax(maxPrice); }, [maxPrice]);
 
   return (
-    <div className="space-y-6">
-      {/* Categories */}
+    <div className="space-y-16">
+      {/* Editorial Category List */}
       <div>
-        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">Category</h4>
-        <div className="space-y-1">
+        <h4 className="text-[10px] font-bold text-accent uppercase tracking-[0.3em] mb-8">Navigation</h4>
+        <div className="grid grid-cols-1 gap-4 font-serif text-xl italic">
           <button
             onClick={() => onCategoryChange('')}
-            className={`w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${!category ? 'bg-secondary text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+            className={`text-left transition-all duration-300 hover:pl-4 hover:text-accent ${!category ? 'text-accent pl-4 underline' : 'text-text-muted'}`}
           >
-            All Categories
+            All Pieces
           </button>
           {Array.isArray(categories) && categories.map(c => (
             <button
               key={c._id}
               onClick={() => onCategoryChange(c._id)}
-              className={`w-full text-left px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${category === c._id ? 'bg-secondary text-white' : 'text-gray-600 hover:bg-gray-100'}`}
+              className={`text-left transition-all duration-300 hover:pl-4 hover:text-accent ${category === c._id ? 'text-accent pl-4 underline' : 'text-text-muted'}`}
             >
               {c.name}
             </button>
@@ -333,50 +366,55 @@ const FilterPanel = ({ categories, category, minPrice, maxPrice, hasFilters, onC
         </div>
       </div>
 
-      {/* Price Range */}
+      {/* Price Curator */}
       <div>
-        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">Price Range</h4>
-        <div className="flex gap-2 items-center">
-          <input
-            type="number" min="0" placeholder="Min" value={localMin}
-            onChange={e => setLocalMin(e.target.value)}
-            className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary"
-          />
-          <span className="text-gray-400 text-sm font-bold flex-shrink-0">–</span>
-          <input
-            type="number" min="0" placeholder="Max" value={localMax}
-            onChange={e => setLocalMax(e.target.value)}
-            className="w-full h-9 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/30 focus:border-secondary"
-          />
+        <h4 className="text-[10px] font-bold text-accent uppercase tracking-[0.3em] mb-8">Value Range</h4>
+        <div className="space-y-6">
+          <div className="flex gap-12 items-center">
+            <div className="flex-1">
+              <label className="block text-[9px] uppercase tracking-widest text-text-muted mb-2">FROM</label>
+              <input
+                type="number" min="0" placeholder="0" value={localMin}
+                onChange={e => setLocalMin(e.target.value)}
+                className="input-editorial py-1 text-xs"
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-[9px] uppercase tracking-widest text-text-muted mb-2">TO</label>
+              <input
+                type="number" min="0" placeholder="∞" value={localMax}
+                onChange={e => setLocalMax(e.target.value)}
+                className="input-editorial py-1 text-xs"
+              />
+            </div>
+          </div>
+          <button
+            onClick={() => onPriceApply(localMin, localMax)}
+            className="w-full btn btn-secondary h-10 text-[10px]"
+          >
+            Curate Price
+          </button>
+          {hasFilters && (
+            <button onClick={onClearFilters} className="w-full text-[9px] uppercase tracking-widest text-error/60 hover:text-error transition-colors pt-4 border-t border-white/5 font-bold">
+              ✕ Reset All Selections
+            </button>
+          )}
         </div>
-        <button
-          onClick={() => onPriceApply(localMin, localMax)}
-          className="mt-2 w-full h-9 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm font-bold text-gray-700 transition-colors"
-        >
-          Apply
-        </button>
       </div>
-
-      {hasFilters && (
-        <button onClick={onClearFilters} className="w-full text-xs text-red-500 hover:text-red-700 font-semibold pt-2 border-t border-gray-100">
-          ✕ Clear All Filters
-        </button>
-      )}
     </div>
   );
 };
 
-const ProductListCard = ({ product, onAddToCart, justAdded, userInfo }) => {
+const ProductListCard = ({ product, onAddToCart, justAdded, userInfo, isLarge }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [activeVariant, setActiveVariant] = useState(0);
   const [activeSize, setActiveSize] = useState('');
 
   const currentVariant = product.variants?.[activeVariant];
   const isOutOfStock = !product.variants?.some(v => v.sizes?.some(s => s.stock > 0));
-  const FALLBACK = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="%23f1f5f9" width="400" height="500"/><text fill="%2394a3b8" font-family="sans-serif" font-size="24" text-anchor="middle" x="200" y="260">No Image</text></svg>';
+  const FALLBACK = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"><rect fill="%231a1a1a" width="400" height="500"/><text fill="%232a2a2a" font-family="serif" font-style="italic" font-size="24" text-anchor="middle" x="200" y="260">Hannvis</text></svg>';
   const image = currentVariant?.images?.[0] || product.variants?.[0]?.images?.[0] || FALLBACK;
 
-  // Reset size when variant (color) changes
   useEffect(() => {
     if (currentVariant) {
       const firstAvailable = currentVariant.sizes.find(s => s.stock > 0);
@@ -394,129 +432,113 @@ const ProductListCard = ({ product, onAddToCart, justAdded, userInfo }) => {
   return (
     <motion.div
       variants={cardVariants}
-      className="group bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.07)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.09)] transition-all duration-300 overflow-hidden flex flex-col"
+      className={`group flex flex-col ${isLarge ? 'lg:col-span-2 lg:flex-row gap-12' : ''}`}
     >
-      <Link to={`/product/${product._id}`} className="relative block aspect-[4/5] overflow-hidden bg-gray-50">
+      <Link 
+        to={`/product/${product._id}`} 
+        className={`relative block overflow-hidden bg-surface group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-700 ease-boutique ${isLarge ? 'flex-1 aspect-[16/9]' : 'aspect-[4/5]'}`}
+      >
         <img
           src={image}
           alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1200ms] ease-boutique grayscale-[0.2] group-hover:grayscale-0"
           loading="lazy"
         />
         {isOutOfStock && (
-          <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
-            <span className="px-3 py-1 bg-gray-800 text-white text-xs font-bold rounded-full">Out of Stock</span>
+          <div className="absolute inset-0 bg-base-black/40 backdrop-blur-[2px] flex items-center justify-center">
+            <span className="text-[10px] tracking-[0.3em] font-bold text-base-black bg-accent px-6 py-2 uppercase italic font-serif">Reserved / Out</span>
+          </div>
+        )}
+
+        {/* Floating Add Trigger (Visual Only) */}
+        {!isOutOfStock && !showOptions && userInfo && userInfo.role !== 'admin' && (
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-boutique pointer-events-none lg:pointer-events-auto">
+            <button
+              onClick={(e) => { e.preventDefault(); setShowOptions(true); }}
+              className="bg-accent text-base-black text-[10px] tracking-widest font-bold px-8 py-3 uppercase hover:bg-white transition-colors"
+            >
+              Secure Piece
+            </button>
           </div>
         )}
       </Link>
 
-      <div className="p-4 flex flex-col flex-grow">
-        <Link to={`/product/${product._id}`}>
-          <h3 className="font-bold text-gray-900 text-sm leading-snug line-clamp-2 group-hover:text-secondary transition-colors mb-2">
-            {product.name}
-          </h3>
-        </Link>
+      <div className={`pt-6 flex flex-col flex-grow ${isLarge ? 'lg:max-w-xs' : ''}`}>
+        <div className="flex justify-between items-start mb-2">
+          <Link to={`/product/${product._id}`} className="flex-1">
+            <h3 className="font-serif text-2xl group-hover:text-accent transition-colors leading-tight italic">
+              {product.name}
+            </h3>
+          </Link>
+          <span className="font-mono text-accent text-sm pl-4 leading-none">${product.price.toFixed(2)}</span>
+        </div>
 
-        <div className="mt-auto relative min-h-[40px]">
-          <AnimatePresence mode="wait">
-            {!showOptions ? (
-              <motion.div
-                key="price-view"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="flex items-center justify-between gap-3"
-              >
-                <span className="text-lg font-black text-gray-900">${product.price.toFixed(2)}</span>
+        <p className="text-[10px] text-text-muted uppercase tracking-[0.2em] font-bold mb-6">
+          {product.category?.name || 'Hannvis Selection'}
+        </p>
 
-                {userInfo && userInfo.role !== 'admin' && !isOutOfStock && (
-                  <motion.button
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setShowOptions(true)}
-                    disabled={justAdded}
-                    className={`h-9 px-3 rounded-xl flex items-center gap-1.5 text-xs font-bold transition-all ${
-                      justAdded
-                        ? 'bg-emerald-500 text-white'
-                        : 'bg-secondary text-white hover:bg-indigo-700 shadow-sm'
+        {/* Options Panel (Logic Preserved, Styled Luxury) */}
+        {showOptions && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+            className="mt-2 p-6 bg-surface border border-white/5 space-y-6"
+          >
+            <div>
+              <label className="text-[9px] uppercase tracking-widest text-text-muted mb-4 block">SELECT PALETTE</label>
+              <div className="flex gap-3">
+                {product.variants.map((v, i) => (
+                  <button
+                    key={v.color}
+                    onClick={() => setActiveVariant(i)}
+                    className={`w-6 h-6 rounded-full border border-white/10 p-0.5 transition-all ${activeVariant === i ? 'border-accent scale-110' : 'opacity-40 hover:opacity-100'}`}
+                  >
+                    <div className="w-full h-full rounded-full" style={{ backgroundColor: v.color.toLowerCase() }} />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-[9px] uppercase tracking-widest text-text-muted mb-4 block">SELECT SIZE</label>
+              <div className="flex flex-wrap gap-2">
+                {currentVariant.sizes.map(s => (
+                  <button
+                    key={s.size}
+                    disabled={s.stock === 0}
+                    onClick={() => setActiveSize(s.size)}
+                    className={`px-3 py-1.5 text-[10px] font-bold border transition-all ${
+                      s.stock === 0 ? 'border-white/5 text-text-muted/20 cursor-not-allowed line-through' :
+                      activeSize === s.size ? 'border-accent text-accent' : 'border-white/5 text-text-muted hover:border-white/20'
                     }`}
                   >
-                    <AnimatePresence mode="wait">
-                      {justAdded ? (
-                        <motion.span key="done" initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-1">
-                          <Check size={13} /> Added
-                        </motion.span>
-                      ) : (
-                        <motion.span key="add" initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-1">
-                          <ShoppingCart size={13} /> Add
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
-                  </motion.button>
-                )}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="options-view"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="bg-gray-50 rounded-xl p-2 border border-gray-100"
-              >
-                <div className="flex flex-col gap-2">
-                  {/* Colors */}
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex gap-1.5">
-                      {product.variants.map((v, i) => (
-                        <button
-                          key={v.color}
-                          onClick={() => setActiveVariant(i)}
-                          className={`w-5 h-5 rounded-full border-2 transition-all ${
-                            activeVariant === i ? 'border-secondary scale-110 shadow-sm' : 'border-transparent opacity-60 hover:opacity-100'
-                          }`}
-                          style={{ backgroundColor: v.color.toLowerCase() }}
-                          title={v.color}
-                        />
-                      ))}
-                    </div>
-                    <div className="flex gap-1">
-                      <button onClick={() => setShowOptions(false)} className="h-7 w-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-400 hover:text-red-500 hover:border-red-100 transition-all">
-                        <X size={14} />
-                      </button>
-                      <button 
-                        onClick={handleConfirm}
-                        disabled={!activeSize}
-                        className="h-7 px-2 rounded-lg bg-secondary text-white flex items-center gap-1 text-[10px] font-black shadow-sm disabled:opacity-50"
-                      >
-                        <Check size={12} /> CONFIRM
-                      </button>
-                    </div>
-                  </div>
+                    {s.size}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-                  {/* Sizes */}
-                  <div className="flex flex-wrap gap-1">
-                    {currentVariant.sizes.map(s => (
-                      <button
-                        key={s.size}
-                        disabled={s.stock === 0}
-                        onClick={() => setActiveSize(s.size)}
-                        className={`px-2 py-0.5 rounded-md text-[10px] font-bold border transition-all ${
-                          s.stock === 0
-                            ? 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'
-                            : activeSize === s.size
-                            ? 'bg-white border-secondary text-secondary shadow-sm'
-                            : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
-                        }`}
-                      >
-                        {s.size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+            <div className="flex gap-4 pt-4 border-t border-white/5">
+              <button 
+                onClick={handleConfirm}
+                disabled={!activeSize}
+                className="flex-1 bg-accent text-base-black text-[10px] font-bold py-3 uppercase hover:bg-white transition-all disabled:opacity-30"
+              >
+                Confirm Procurement
+              </button>
+              <button onClick={() => setShowOptions(false)} className="px-4 text-text-muted hover:text-text-primary transition-colors">
+                <X size={16} strokeWidth={1} />
+              </button>
+            </div>
+          </motion.div>
+        )}
+
+        {justAdded && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 p-3 bg-success/10 border border-success/20 text-success text-[10px] tracking-widest font-bold uppercase text-center italic">
+            Piece Secured
+          </motion.div>
+        )}
       </div>
     </motion.div>
   );
 };
+
