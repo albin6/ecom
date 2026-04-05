@@ -37,132 +37,183 @@ export const OrderDetails = () => {
             initial="hidden"
             animate="visible"
             variants={containerVariants}
-            className="py-10 max-w-6xl mx-auto px-4"
+            className="py-16 max-w-7xl mx-auto px-8 space-y-16"
         >
-            <div className="mb-8 flex items-center justify-between">
+            <div className="border-b border-white/5 pb-10 flex flex-col md:flex-row items-end justify-between gap-8">
                 <div>
-                  <Link to="/profile" className="inline-flex items-center text-sm font-semibold text-secondary hover:underline gap-1 mb-2">
-                      <ChevronLeft size={16} /> Back to My Orders
+                  <Link to="/profile" className="inline-flex items-center text-[10px] font-black text-accent uppercase tracking-[0.3em] hover:text-white transition-all gap-2 mb-6 group">
+                      <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Retrace to Archive
                   </Link>
-                  <h1 className="text-3xl font-black text-gray-900 tracking-tight">Order Details</h1>
-                  <p className="text-gray-500 text-sm mt-1">Order ID: <span className="font-mono text-secondary">{order.orderId || order._id}</span></p>
+                  <h1 className="text-5xl font-display text-text-primary tracking-tight">Acquisition Manifest</h1>
+                  <p className="text-[10px] font-bold text-text-muted mt-3 uppercase tracking-[0.4em]">Reference ID: <span className="font-mono text-accent">{order.orderId || order._id.toUpperCase()}</span></p>
                 </div>
-                <div className="flex flex-col items-end gap-2">
-                    <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider shadow-sm ${order.isPaid ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`}>
-                        {order.isPaid ? 'Paid' : 'Payment Pending'}
-                    </span>
-                    {order.isPaid && <p className="text-[10px] text-gray-400 font-medium">Paid on {new Date(order.paidAt).toLocaleDateString()}</p>}
+                <div className="flex flex-col items-end gap-3">
+                    <div className={`px-6 py-2 border ${order.isPaid ? 'border-emerald-500/30 bg-emerald-500/5 text-emerald-400' : 'border-red-500/30 bg-red-500/5 text-red-400'} rounded-sm text-[10px] font-black uppercase tracking-[0.2em] shadow-lg`}>
+                        {order.isPaid ? 'Settlement Confirmed' : 'Authorization Required'}
+                    </div>
+                    {order.isPaid && <p className="text-[9px] text-text-muted font-bold uppercase tracking-widest italic opacity-60">Verified on {new Date(order.paidAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>}
                 </div>
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
-                {/* Left Column: Order Content */}
-                <div className="lg:col-span-2 space-y-8">
+            <div className="grid lg:grid-cols-12 gap-16">
+                {/* Information Modules */}
+                <div className="lg:col-span-8 space-y-16">
                     
-                    {/* Shipping Info */}
-                    <motion.div variants={containerVariants} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 overflow-hidden relative">
-                        <div className="absolute top-0 right-0 p-10 opacity-5 text-secondary"><Truck size={80} /></div>
-                        <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                            <Truck size={22} className="text-secondary" />
-                            Shipping Information
-                        </h2>
-                        <div className="grid sm:grid-cols-2 gap-8 text-sm">
-                            <div className="space-y-1">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Recipient</p>
-                                <p className="text-gray-900 font-semibold text-base">{order.user.name}</p>
-                                <p className="text-gray-500">{order.user.email}</p>
+                    {/* Module Grid */}
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Shipping Module */}
+                        <motion.div variants={containerVariants} className="glass-panel p-10 border border-white/10 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 p-8 opacity-5 text-accent group-hover:scale-110 transition-transform duration-1000"><Truck size={60} /></div>
+                            <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
+                                <div className="w-1 h-3 bg-accent" />
+                                Logistics
+                            </h2>
+                            <div className="space-y-8">
+                                <div className="space-y-1">
+                                    <p className="text-[9px] font-black text-text-muted uppercase tracking-widest opacity-60">Recipient</p>
+                                    <p className="text-text-primary font-bold text-base tracking-tight">{order.user.name}</p>
+                                    <p className="text-[10px] font-mono text-text-muted italic opacity-40 uppercase tracking-tighter mt-1">{order.user.email}</p>
+                                </div>
+                                <div className="space-y-1 pt-4 border-t border-white/5">
+                                    <p className="text-[9px] font-black text-text-muted uppercase tracking-widest opacity-60">Destination</p>
+                                    <p className="text-text-primary text-sm tracking-wide leading-loose uppercase">
+                                        {order.shippingAddress.address}<br />
+                                        {order.shippingAddress.city}, {order.shippingAddress.postalCode}<br />
+                                        {order.shippingAddress.country}
+                                    </p>
+                                </div>
+                                <div className={`p-4 border ${order.isDelivered ? 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400' : 'border-amber-500/20 bg-amber-500/5 text-amber-500'} flex items-center gap-3 transition-all duration-700`}>
+                                    <div className={`h-1.5 w-1.5 rounded-full ${order.isDelivered ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] animate-pulse' : 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)] animate-slow-ping'}`} />
+                                    <p className="text-[9px] font-black uppercase tracking-[0.2em]">
+                                        {order.isDelivered ? `Finalized: ${new Date(order.deliveredAt).toLocaleDateString()}` : 'Transit Sequence Initiated'}
+                                    </p>
+                                </div>
                             </div>
-                            <div className="space-y-1">
-                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Address</p>
-                                <p className="text-gray-700 leading-relaxed">
-                                    {order.shippingAddress.address}<br />
-                                    {order.shippingAddress.city}, {order.shippingAddress.postalCode}<br />
-                                    {order.shippingAddress.country}
-                                </p>
-                            </div>
-                        </div>
-                        <div className={`mt-6 p-4 rounded-2xl flex items-center gap-3 ${order.isDelivered ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-amber-50 text-amber-700 border border-amber-100'}`}>
-                            <div className={`h-2.5 w-2.5 rounded-full animate-pulse ${order.isDelivered ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-                            <p className="text-sm font-bold">
-                                {order.isDelivered ? `Delivered on ${new Date(order.deliveredAt).toLocaleDateString()}` : 'Shipping in Progress'}
-                            </p>
-                        </div>
-                    </motion.div>
+                        </motion.div>
 
-                    {/* Order Items */}
-                    <motion.div variants={containerVariants} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                        <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                            <Package size={22} className="text-secondary" />
-                            Items Ordered
-                        </h2>
-                        <ul className="divide-y divide-gray-100">
+                        {/* Payment Module */}
+                        <motion.div variants={containerVariants} className="glass-panel p-10 border border-white/10 relative overflow-hidden group">
+                           <div className="absolute top-0 right-0 p-8 opacity-5 text-accent group-hover:scale-110 transition-transform duration-1000"><CreditCard size={60} /></div>
+                           <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
+                                <div className="w-1 h-3 bg-accent" />
+                                Settlement
+                            </h2>
+                            <div className="space-y-8">
+                                <div className="space-y-1">
+                                    <p className="text-[9px] font-black text-text-muted uppercase tracking-widest opacity-60">Financial Protocol</p>
+                                    <p className="text-text-primary font-bold text-base tracking-widest uppercase italic">{order.paymentMethod}</p>
+                                </div>
+                                <div className="space-y-4 pt-4 border-t border-white/5">
+                                     <p className="text-[9px] font-black text-text-muted uppercase tracking-widest opacity-60">Authorization Status</p>
+                                     <div className="flex items-center gap-4">
+                                          <div className={`w-12 h-12 flex items-center justify-center rounded-sm border ${order.isPaid ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400' : 'border-red-500/30 bg-red-500/10 text-red-500'}`}>
+                                              {order.isPaid ? <CreditCard size={20} /> : <div className="animate-pulse">!</div>}
+                                          </div>
+                                          <div>
+                                              <p className={`text-[10px] font-black uppercase tracking-widest ${order.isPaid ? 'text-emerald-400' : 'text-red-400'}`}>
+                                                  {order.isPaid ? 'PAYMENT RECEIVED' : 'AWAITING DISHURSEMENT'}
+                                              </p>
+                                              <p className="text-[9px] font-bold text-text-muted truncate max-w-[200px] uppercase opacity-40 mt-1">Transaction Verified through secure bridge</p>
+                                          </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Manifest Item List */}
+                    <motion.div variants={containerVariants} className="space-y-10">
+                        <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                            <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] flex items-center gap-3">
+                                <div className="w-1 h-3 bg-accent" />
+                                Collection Contents
+                            </h2>
+                            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest italic opacity-40">{order.orderItems.length} Units Secured</p>
+                        </div>
+                        <div className="space-y-2">
                             {order.orderItems.map((item, index) => (
-                                <li key={index} className="py-6 flex gap-6 items-center flex-wrap sm:flex-nowrap">
-                                    <div className="h-24 w-24 rounded-2xl overflow-hidden border border-gray-100 bg-gray-50 shrink-0 shadow-inner">
-                                        <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform hover:scale-110 duration-500" />
+                                <motion.div 
+                                    key={index} 
+                                    whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.01)" }}
+                                    className="p-6 flex gap-10 items-center border border-white/5 hover:border-white/10 transition-all group"
+                                >
+                                    <div className="h-32 w-28 bg-surface/40 overflow-hidden border border-white/5 p-1 transition-transform group-hover:scale-[1.02] duration-700">
+                                        <img src={item.image} alt={item.name} className="h-full w-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000" />
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        <Link to={`/product/${item.product}`} className="text-lg font-bold text-gray-900 hover:text-secondary truncate transition-colors block">
-                                            {item.name}
-                                        </Link>
-                                        <div className="flex gap-4 mt-2">
-                                            <div className="flex flex-col">
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Color</span>
-                                                <span className="text-sm font-bold text-gray-700">{item.color}</span>
+                                    <div className="flex-1 min-w-0 space-y-6">
+                                        <div>
+                                            <Link to={`/product/${item.product}`} className="text-xl font-display text-text-primary hover:text-accent transition-colors block">
+                                                {item.name}
+                                            </Link>
+                                            <p className="text-[9px] font-mono text-text-muted uppercase tracking-widest mt-1 opacity-60">Asset Registry: {item.product.substring(18).toUpperCase()}</p>
+                                        </div>
+                                        <div className="flex gap-8">
+                                            <div className="space-y-1">
+                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-text-muted block opacity-50">Chromatic</span>
+                                                <span className="text-[10px] font-bold text-text-primary uppercase tracking-widest">{item.color}</span>
                                             </div>
-                                            <div className="flex flex-col border-l border-gray-100 pl-4">
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Size</span>
-                                                <span className="text-sm font-bold text-gray-700 uppercase">{item.size}</span>
+                                            <div className="space-y-1 border-l border-white/5 pl-8">
+                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-text-muted block opacity-50">Scale</span>
+                                                <span className="text-[10px] font-bold text-text-primary uppercase tracking-widest">{item.size}</span>
+                                            </div>
+                                            <div className="space-y-1 border-l border-white/5 pl-8">
+                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-text-muted block opacity-50">Quantity</span>
+                                                <span className="text-[10px] font-bold text-text-primary uppercase tracking-widest">{item.qty}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="text-right shrink-0">
-                                        <p className="text-sm text-gray-400 font-medium mb-1">{item.qty} × ${item.price.toFixed(2)}</p>
-                                        <p className="text-lg font-black text-gray-900">${(item.qty * item.price).toFixed(2)}</p>
+                                    <div className="text-right shrink-0 pr-4">
+                                        <p className="text-[9px] text-text-muted font-black tracking-widest mb-1 opacity-40 uppercase italic">${item.price.toLocaleString()} EA</p>
+                                        <p className="text-xl font-bold text-text-primary tracking-tighter">${(item.qty * item.price).toLocaleString()}</p>
                                     </div>
-                                </li>
+                                </motion.div>
                             ))}
-                        </ul>
+                        </div>
                     </motion.div>
                 </div>
 
-                {/* Right Column: Order Summary */}
-                <div className="lg:col-span-1">
-                    <motion.div variants={containerVariants} className="bg-gray-900 text-white p-8 rounded-[2.5rem] shadow-2xl sticky top-24 overflow-hidden">
-                        {/* Decorative background element */}
-                        <div className="absolute -top-12 -right-12 h-40 w-40 bg-secondary/10 rounded-full blur-3xl" />
+                {/* Right Column: Order Summary Console */}
+                <div className="lg:col-span-4 relative">
+                    <motion.div variants={containerVariants} className="glass-panel p-10 border border-white/10 shadow-3xl sticky top-32 overflow-hidden bg-white/[0.01]">
+                        <div className="absolute top-0 right-0 p-12 opacity-5 -mr-6 -mt-6">
+                             <div className="text-9xl font-display italic tracking-tighter">Receipt</div>
+                        </div>
                         
-                        <h2 className="text-2xl font-black mb-8 relative">Order Summary</h2>
-                        <div className="space-y-5 relative">
-                            <div className="flex justify-between items-center text-gray-400">
-                                <span className="font-medium text-sm">Items Subtotal</span>
-                                <span className="text-white font-bold">${order.itemsPrice.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-gray-400">
-                                <span className="font-medium text-sm">Shipping Fee</span>
-                                <span className="text-white font-bold">${order.shippingPrice.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-gray-400">
-                                <span className="font-medium text-sm">Taxes (15%)</span>
-                                <span className="text-white font-bold">${order.taxPrice.toFixed(2)}</span>
-                            </div>
-                            <div className="h-px bg-white/10 my-4" />
-                            <div className="flex justify-between items-end">
-                                <div>
-                                  <p className="text-xs font-bold text-secondary uppercase tracking-widest mb-1">Grand Total</p>
-                                  <p className="text-4xl font-black text-white">${order.totalPrice.toFixed(2)}</p>
+                        <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] mb-12 flex items-center gap-3">
+                            <div className="w-1 h-3 bg-accent" />
+                            Financial Ledger
+                        </h2>
+                        
+                        <div className="space-y-8 relative">
+                            <div className="space-y-6">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Itemized Gross</span>
+                                    <span className="text-text-primary font-bold text-sm tracking-wider">${order.itemsPrice.toLocaleString()}</span>
                                 </div>
-                                <div className="text-right">
-                                    <CreditCard size={32} className="text-secondary/50 mb-1" />
-                                    <p className="text-[10px] text-gray-500 uppercase font-black tracking-tighter italic">{order.paymentMethod}</p>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Fulfillment Logistics</span>
+                                    <span className="text-text-primary font-bold text-sm tracking-wider">${order.shippingPrice.toLocaleString()}</span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Statutory Assessment (GST)</span>
+                                    <span className="text-text-primary font-bold text-sm tracking-wider">${order.taxPrice.toLocaleString()}</span>
+                                </div>
+                            </div>
+
+                            <div className="h-px bg-white/5 my-10" />
+
+                            <div className="space-y-2">
+                                <p className="text-[9px] font-black text-accent uppercase tracking-[0.4em] mb-2 pl-1">Consolidated Total</p>
+                                <div className="flex items-baseline justify-between">
+                                    <p className="text-5xl font-display text-text-primary tracking-tighter">${order.totalPrice.toLocaleString()}</p>
+                                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest opacity-40">USD</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="mt-10 pt-8 border-t border-white/5 space-y-4">
-                            <p className="text-center text-[10px] text-gray-500 uppercase tracking-[0.2em] font-medium">Thank you for your purchase</p>
+                        <div className="mt-16 pt-12 border-t border-white/5 space-y-6">
                             <Link to="/profile">
-                              <Button variant="glass" className="w-full rounded-2xl text-white border-white/20 hover:bg-white/5 shadow-none py-6">
+                              <Button variant="ghost" className="w-full h-14 text-[10px] tracking-[0.3em] border border-white/5 hover:border-accent hover:text-accent font-black uppercase">
                                   Return to Dashboard
                               </Button>
                             </Link>
@@ -171,11 +222,14 @@ export const OrderDetails = () => {
                                 <Button 
                                     onClick={deliverHandler}
                                     isLoading={loadingDeliver}
-                                    className="w-full rounded-2xl bg-secondary text-white border-none shadow-lg shadow-secondary/20 py-6"
+                                    variant="primary"
+                                    className="w-full h-14 text-[10px] tracking-[0.3em] font-black uppercase shadow-gold-glow"
                                 >
-                                    Mark as Delivered
+                                    Authorize Delivery Completion
                                 </Button>
                             )}
+                            
+                            <p className="text-center text-[8px] text-text-muted uppercase tracking-[0.2em] font-bold opacity-30 mt-8">Certified Transaction Manifest Copy • Non-Alterable</p>
                         </div>
                     </motion.div>
                 </div>

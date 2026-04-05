@@ -38,58 +38,61 @@ export const AdminCategoryList = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-        <div></div>
+    <div className="space-y-12">
+      <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-white/5 pb-8">
+        <div>
+          <h3 className="font-display text-2xl tracking-tight">Category Ledger</h3>
+          <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2">Classified Segments: {data?.categories?.length || 0}</p>
+        </div>
         <Link to="/admin/categories/new">
-          <Button className="flex items-center gap-2">
-            <Plus size={18} /> Create Category
+          <Button className="h-12 px-8 text-[10px] tracking-[0.2em]" variant="primary">
+            <Plus size={16} className="mr-2" /> Define New Segment
           </Button>
         </Link>
       </div>
 
-      {isLoading ? <Loader /> : error ? (
+      {isLoading ? (
+        <div className="h-64 flex items-center justify-center bg-surface/20 rounded-sm border border-white/5">
+          <Loader />
+        </div>
+      ) : error ? (
         <Message variant="danger">{error?.data?.message || 'Data stream interrupted.'}</Message>
       ) : (
         <>
-          <div className="bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden">
+          <div className="glass-panel overflow-hidden border border-white/10 shadow-2xl">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm whitespace-nowrap">
-                <thead className="bg-gray-50/50">
-                  <tr>
-                    <th className="px-8 py-5 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">ID</th>
-                    <th className="px-8 py-5 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Name</th>
-                    <th className="px-8 py-5 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Slug Path</th>
-                    <th className="px-8 py-5 text-left text-xs font-bold text-gray-400 uppercase tracking-widest">Status</th>
-                    <th className="px-8 py-5 text-right text-xs font-bold text-gray-400 uppercase tracking-widest">Actions</th>
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="border-b border-white/5 bg-white/[0.02]">
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Reference</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Segment Name</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Slug Path</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Status</th>
+                    <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Executive</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-white/5">
                   {data.categories?.map((category) => (
-                    <tr key={category._id} className="hover:bg-gray-50/50 transition-colors group">
-                      <td className="px-8 py-6 whitespace-nowrap">
-                        <span className="font-mono text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">
-                           {category._id.substring(18, 24).toUpperCase()}
+                    <tr key={category._id} className="hover:bg-white/[0.01] transition-all group">
+                      <td className="px-8 py-6">
+                        <span className="font-mono text-[11px] text-text-muted bg-surface/40 px-2 py-1 border border-white/5 tracking-wider uppercase">
+                          #{category._id.substring(18, 24).toUpperCase()}
                         </span>
                       </td>
-                      <td className="px-8 py-6 whitespace-nowrap font-bold text-gray-900">{category.name}</td>
-                      <td className="px-8 py-6 whitespace-nowrap font-mono text-xs text-gray-500 uppercase tracking-tighter">/{category.slug}</td>
-                      <td className="px-8 py-6 whitespace-nowrap">
+                      <td className="px-8 py-6 font-bold text-text-primary tracking-tight">{category.name}</td>
+                      <td className="px-8 py-6 font-mono text-[9px] text-text-muted uppercase tracking-tighter opacity-60">/{category.slug}</td>
+                      <td className="px-8 py-6">
                         {category.isBlocked ? (
-                          <span className="inline-flex items-center px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-bold uppercase tracking-wide border border-red-100">
-                             System Blocked
-                          </span>
+                          <span className="text-[9px] font-black bg-red-900/10 text-red-400 px-2.5 py-1 rounded-sm border border-red-900/20 uppercase tracking-widest">Quarantined</span>
                         ) : (
-                          <span className="inline-flex items-center px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-wide border border-emerald-100">
-                             Active Listing
-                          </span>
+                          <span className="text-[9px] font-black bg-emerald-900/10 text-emerald-400 px-2.5 py-1 rounded-sm border border-emerald-900/20 uppercase tracking-widest">Active Listing</span>
                         )}
                       </td>
-                      <td className="px-8 py-6 whitespace-nowrap text-right">
-                         <div className="flex items-center justify-end gap-2">
+                      <td className="px-8 py-6 text-right">
+                         <div className="flex items-center justify-end gap-3 opacity-40 group-hover:opacity-100 transition-opacity">
                            <Link to={`/admin/categories/${category._id}/edit`}>
-                             <Button variant="ghost" size="sm" className="w-8 h-8 p-0 hover:bg-indigo-50 hover:text-indigo-600">
-                               <Edit size={16} />
+                             <Button variant="ghost" size="sm" className="w-9 h-9 p-0 border border-white/5 hover:border-accent hover:text-accent">
+                               <Edit size={14} />
                              </Button>
                            </Link>
                            <Button 
@@ -97,19 +100,19 @@ export const AdminCategoryList = () => {
                              disabled={isToggling}
                              variant="ghost"
                              size="sm"
-                             className={`w-8 h-8 p-0 ${category.isBlocked ? 'hover:bg-emerald-50 hover:text-emerald-600' : 'hover:bg-orange-50 hover:text-orange-600'}`}
+                             className={`w-9 h-9 p-0 border border-white/5 ${category.isBlocked ? 'hover:border-emerald-50 hover:text-emerald-400' : 'hover:border-orange-900 hover:text-orange-400'}`}
                              title={category.isBlocked ? 'Reinstate Visibility' : 'Quarantine Entire Branch'}
                            >
-                             {category.isBlocked ? <ShieldCheck size={16} /> : <ShieldBan size={16} />}
+                             {category.isBlocked ? <ShieldCheck size={14} /> : <ShieldBan size={14} />}
                            </Button>
                            <Button 
                              onClick={() => handleDelete(category._id)}
                              disabled={isDeleting}
                              variant="ghost"
                              size="sm"
-                             className="w-8 h-8 p-0 hover:bg-red-50 hover:text-red-600"
+                             className="w-9 h-9 p-0 border border-white/5 hover:border-red-900 hover:text-red-400"
                            >
-                             <Trash2 size={16} />
+                             <Trash2 size={14} />
                            </Button>
                          </div>
                       </td>
@@ -117,9 +120,9 @@ export const AdminCategoryList = () => {
                   ))}
                   {data.categories?.length === 0 && (
                     <tr>
-                      <td colSpan="5" className="px-8 py-12 text-center">
-                        <p className="text-gray-400 font-medium">
-                          {searchQuery ? `No matches found for "${searchQuery}"` : 'No categories allocated.'}
+                      <td colSpan="5" className="px-8 py-20 text-center">
+                        <p className="text-text-muted text-xs italic italic-editorial uppercase tracking-widest">
+                          {searchQuery ? `No matches found for "${searchQuery}" in archive.` : 'No categories allocated.'}
                         </p>
                       </td>
                     </tr>
@@ -128,11 +131,13 @@ export const AdminCategoryList = () => {
               </table>
             </div>
           </div>
-          <Pagination 
-            page={data.page} 
-            pages={data.pages} 
-            onPageChange={(page) => setPageNumber(page)} 
-          />
+          <div className="pt-8 flex justify-center">
+            <Pagination 
+              page={data.page} 
+              pages={data.pages} 
+              onPageChange={(page) => setPageNumber(page)} 
+            />
+          </div>
         </>
       )}
     </div>

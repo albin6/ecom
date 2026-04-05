@@ -12,6 +12,7 @@ import { Button } from '../../components/ui/Button.jsx';
 import { Input } from '../../components/ui/Input.jsx';
 import { Loader } from '../../components/ui/Loader.jsx';
 import { Trash2, Plus, Image as ImageIcon, X, Upload, Clock } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const AdminProductEdit = () => {
   const { id } = useParams();
@@ -227,73 +228,96 @@ export const AdminProductEdit = () => {
     }
   };
 
-  if (productLoading) return <Loader />;
+  if (productLoading) return <div className="h-[60vh] flex items-center justify-center"><Loader /></div>;
 
   const isBusy = isCreating || isUpdating || isSubmitting;
 
   return (
-    <div className="py-6 max-w-4xl mx-auto space-y-6">
-      <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-        {isEditMode ? 'Edit Product' : 'Create Product'}
-      </h1>
+    <div className="py-12 max-w-5xl mx-auto space-y-12">
+      <div className="border-b border-white/5 pb-8">
+        <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] mb-2 italic opacity-80">Specification Suite</p>
+        <h1 className="text-4xl font-display text-text-primary tracking-tight">
+          {isEditMode ? 'Modify Asset' : 'Define New Asset'}
+        </h1>
+      </div>
 
-      <form onSubmit={submitHandler} className="space-y-8">
+      <form onSubmit={submitHandler} className="space-y-16">
         {/* Core Detail Pane */}
-        <div className="bg-white p-6 rounded-xl border shadow-sm space-y-4">
-          <h2 className="text-xl font-bold border-b pb-2">Core Identity</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><label className="text-sm font-medium">Name</label><Input value={name} onChange={e => setName(e.target.value)} required /></div>
-            <div><label className="text-sm font-medium">Slug (URL Mapping)</label><Input value={slug} onChange={e => setSlug(e.target.value)} required /></div>
-            <div><label className="text-sm font-medium">Price ($)</label><Input type="number" min="0" step="0.01" value={price} onChange={e => setPrice(e.target.value)} required /></div>
-            <div className="relative">
-              <label className="text-sm font-medium block mb-1">Category</label>
+        <div className="glass-panel p-10 border border-white/10 shadow-2xl space-y-10 group">
+          <div className="flex items-center gap-4">
+               <div className="w-1.5 h-6 bg-accent" />
+               <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Core Identity</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+            <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Asset Nomenclature</label>
+                <Input value={name} onChange={e => setName(e.target.value)} required placeholder="e.g. Atelier Wool Coat" />
+            </div>
+            <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Archive SLUG</label>
+                <Input value={slug} onChange={e => setSlug(e.target.value)} required placeholder="atelier-wool-coat" />
+            </div>
+            <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Market Valuation ($)</label>
+                <Input type="number" min="0" step="0.01" value={price} onChange={e => setPrice(e.target.value)} required placeholder="0.00" />
+            </div>
+            <div className="relative space-y-1.5">
+              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Classification Segment</label>
               <div className="relative">
                 <input
                   type="text"
                   value={categorySearchTerm}
-                  placeholder="Search and attach a Category..."
+                  placeholder="Identify classification..."
                   onChange={(e) => {
                     setCategorySearchTerm(e.target.value);
                     setCategory('');
                     setShowCategoryDropdown(true);
                   }}
                   onFocus={() => setShowCategoryDropdown(true)}
-                  className="w-full flex h-10 rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                  className="w-full h-11 bg-transparent border-b-2 border-white/10 text-sm tracking-wider text-text-primary placeholder:text-text-muted/30 focus:outline-none focus:border-accent transition-all duration-500"
                 />
-                {showCategoryDropdown && (
-                  <div className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg">
-                    <div className="p-2 space-y-1">
-                      {categoriesLoading ? (
-                        <div className="text-sm p-2 text-gray-500 text-center">Loading...</div>
-                      ) : categories?.filter(c => c.name.toLowerCase().includes(categorySearchTerm.toLowerCase())).length === 0 ? (
-                        <div className="text-sm p-2 text-gray-500 text-center">No categories found</div>
-                      ) : (
-                        categories?.filter(c => c.name.toLowerCase().includes(categorySearchTerm.toLowerCase())).map((c) => (
-                          <div
-                            key={c._id}
-                            onClick={() => {
-                              setCategory(c._id);
-                              setCategorySearchTerm(c.name);
-                              setShowCategoryDropdown(false);
-                            }}
-                            className={`p-2 cursor-pointer rounded-md text-sm transition-colors ${category === c._id ? 'bg-indigo-50 text-indigo-700 font-medium' : 'hover:bg-gray-50 text-gray-800'}`}
-                          >
-                            {c.name} {c.isBlocked ? <span className="text-red-500 text-xs ml-2">(Blocked)</span> : ''}
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                )}
+                <AnimatePresence>
+                  {showCategoryDropdown && (
+                    <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute z-50 w-full mt-2 max-h-64 overflow-y-auto bg-surface/90 backdrop-blur-xl border border-white/10 shadow-2xl rounded-sm custom-scrollbar"
+                    >
+                      <div className="p-2 space-y-1">
+                        {categoriesLoading ? (
+                          <div className="text-[10px] font-bold p-4 text-text-muted text-center uppercase tracking-widest">Accessing Registers...</div>
+                        ) : categories?.filter(c => c.name.toLowerCase().includes(categorySearchTerm.toLowerCase())).length === 0 ? (
+                          <div className="text-[10px] font-bold p-4 text-text-muted text-center uppercase tracking-widest">No segments found</div>
+                        ) : (
+                          categories?.filter(c => c.name.toLowerCase().includes(categorySearchTerm.toLowerCase())).map((c) => (
+                            <div
+                              key={c._id}
+                              onClick={() => {
+                                setCategory(c._id);
+                                setCategorySearchTerm(c.name);
+                                setShowCategoryDropdown(false);
+                              }}
+                              className={`p-4 cursor-pointer text-[10px] uppercase tracking-widest transition-all ${category === c._id ? 'bg-accent text-base-black font-black' : 'hover:bg-white/5 text-text-muted hover:text-text-primary'}`}
+                            >
+                              {c.name} {c.isBlocked ? <span className="opacity-50 ml-2">(Restricted)</span> : ''}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
-            <div className="col-span-1 md:col-span-2">
-              <label className="text-sm font-medium">Description</label>
+            <div className="col-span-1 md:col-span-2 space-y-1.5 pt-4">
+              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Atelier Narrative</label>
               <textarea
                 value={description}
                 onChange={e => setDescription(e.target.value)}
                 required
-                className="w-full flex min-h-[80px] rounded-lg border border-gray-300 bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 my-1"
+                placeholder="Describe the essence of this piece..."
+                className="w-full min-h-[140px] bg-white/[0.03] border border-white/5 p-6 text-sm tracking-wider leading-relaxed text-text-primary placeholder:text-text-muted/30 focus:outline-none focus:border-accent/40 transition-all duration-500 rounded-sm"
                 rows="4"
               />
             </div>
@@ -301,127 +325,167 @@ export const AdminProductEdit = () => {
         </div>
 
         {/* Variants */}
-        <div className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Variants</h2>
-            <Button type="button" variant="outline" onClick={handleAddVariant} className="flex gap-2 items-center">
-              <Plus size={16}/> Add Color Variant
+        <div className="space-y-10">
+          <div className="flex justify-between items-end border-b border-white/5 pb-6">
+            <div>
+                 <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em] mb-1">Curation Variants</h2>
+                 <p className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Chromatic and Dimensional Multiplicity</p>
+            </div>
+            <Button type="button" variant="ghost" onClick={handleAddVariant} className="h-10 px-6 text-[9px] tracking-[0.2em] border border-white/5 hover:border-accent hover:text-accent font-bold">
+              <Plus size={14} className="mr-2"/> Append Variant
             </Button>
           </div>
 
-          {variants.map((variant, vIndex) => {
-            const totalImages = (variant.images?.length || 0) + (variant.pendingBlobs?.length || 0);
-            return (
-              <div key={vIndex} className="bg-white p-6 rounded-xl border-2 border-indigo-50 shadow-sm relative space-y-6">
-                <button type="button" onClick={() => handleDeleteVariant(vIndex)} className="absolute top-4 right-4 text-gray-400 hover:text-red-500">
-                  <Trash2 size={20} />
-                </button>
+          <div className="grid grid-cols-1 gap-12">
+            {variants.map((variant, vIndex) => {
+                const totalImages = (variant.images?.length || 0) + (variant.pendingBlobs?.length || 0);
+                return (
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    key={vIndex} 
+                    className="glass-panel p-8 border border-white/5 shadow-xl relative group/variant"
+                >
+                    <button 
+                        type="button" 
+                        onClick={() => handleDeleteVariant(vIndex)} 
+                        className="absolute top-6 right-6 text-text-muted hover:text-red-400 transition-colors opacity-0 group-hover/variant:opacity-100"
+                    >
+                    <Trash2 size={18} />
+                    </button>
 
-                <div>
-                  <label className="text-sm font-bold text-gray-800">Color / Style Name</label>
-                  <Input value={variant.color} onChange={(e) => handleVariantColorChange(vIndex, e.target.value)} className="max-w-xs mt-1" required placeholder="e.g. Midnight Blue" />
-                </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        <div className="lg:col-span-4 space-y-8">
+                            <div className="space-y-1.5">
+                                <label className="text-[9px] font-black text-text-muted uppercase tracking-widest">Chromatic Profile</label>
+                                <Input value={variant.color} onChange={(e) => handleVariantColorChange(vIndex, e.target.value)} required placeholder="e.g. Noir Abyss" />
+                            </div>
 
-                {/* Image Manager */}
-                <div className="bg-gray-50 p-4 rounded-lg border border-dashed border-gray-300 space-y-4">
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-semibold text-gray-700">
-                      Images <span className="font-normal text-xs text-red-500 ml-2">(Min 3 required — {totalImages}/3)</span>
-                    </h3>
-                    <label className="cursor-pointer bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm font-medium hover:bg-gray-100 flex items-center gap-2 transition-colors">
-                      <ImageIcon size={16} /> Select Image
-                      <input
-                        type="file"
-                        className="hidden"
-                        accept="image/*"
-                        ref={el => fileInputRefs.current[vIndex] = el}
-                        onChange={(e) => onFileSelectToCrop(e, vIndex)}
-                      />
-                    </label>
-                  </div>
-
-                  <div className="flex gap-4 flex-wrap">
-                    {/* Already uploaded to Cloudinary */}
-                    {variant.images.map((url, imgIndex) => (
-                      <div key={`confirmed-${imgIndex}`} className="relative shrink-0 group rounded-md overflow-hidden border">
-                        <img src={url} alt="Variant" className="w-24 h-24 object-cover" />
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteImage(vIndex, imgIndex)}
-                          className="absolute top-1 right-1 bg-white/90 p-1 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    ))}
-
-                    {/* Cropped locally — pending upload on submit */}
-                    {(variant.pendingBlobs || []).map((pending, blobIndex) => (
-                      <div key={`pending-${blobIndex}`} className="relative shrink-0 group rounded-md overflow-hidden border-2 border-amber-300">
-                        <img src={pending.previewUrl} alt="Pending upload" className="w-24 h-24 object-cover" />
-                        {/* Pending badge */}
-                        <div className="absolute bottom-0 left-0 right-0 bg-amber-400/90 flex items-center justify-center gap-0.5 py-0.5">
-                          <Clock size={9} className="text-white" />
-                          <span className="text-white text-[9px] font-bold">Pending</span>
+                            {/* Sizes */}
+                            <div className="space-y-4 pt-6">
+                                <div className="flex justify-between items-center">
+                                    <h3 className="text-[9px] font-black text-text-primary uppercase tracking-[0.2em]">Scale & Inventory</h3>
+                                    <button 
+                                        type="button" 
+                                        onClick={() => handleAddSizeClick(vIndex)} 
+                                        className="text-[9px] font-black text-accent uppercase tracking-widest hover:underline transition-all"
+                                    >
+                                        + Apportion Size
+                                    </button>
+                                </div>
+                                <div className="space-y-4">
+                                    {variant.sizes.map((sizeObj, sIndex) => (
+                                        <div key={sIndex} className="flex gap-4 items-end bg-white/[0.02] p-4 border border-white/5 group/size">
+                                            <div className="flex-grow space-y-1">
+                                                <Input value={sizeObj.size} onChange={(e) => handleSizeChange(vIndex, sIndex, 'size', e.target.value)} required placeholder="Size" className="h-9" />
+                                            </div>
+                                            <div className="w-24 space-y-1">
+                                                <Input type="number" min="0" value={sizeObj.stock} onChange={(e) => handleSizeChange(vIndex, sIndex, 'stock', e.target.value)} required placeholder="Qty" className="h-9" />
+                                            </div>
+                                            <button 
+                                                type="button" 
+                                                onClick={() => handleDeleteSize(vIndex, sIndex)} 
+                                                className="h-9 w-9 flex items-center justify-center text-text-muted hover:text-red-400 border border-white/5 hover:border-red-900/30 transition-all opacity-0 group-size:opacity-100"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                    {variant.sizes.length === 0 && <p className="text-[9px] text-text-muted italic uppercase tracking-widest py-4">No size vectors defined.</p>}
+                                </div>
+                            </div>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => handleDeletePending(vIndex, blobIndex)}
-                          className="absolute top-1 right-1 bg-white/90 p-1 rounded-full text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    ))}
 
-                    {totalImages === 0 && (
-                      <p className="text-sm text-gray-400 py-4 italic">No images added yet.</p>
-                    )}
-                  </div>
-                </div>
+                        {/* Image Manager */}
+                        <div className="lg:col-span-8 bg-black/20 p-8 border border-white/5 rounded-sm space-y-6">
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <h3 className="text-[9px] font-black text-text-primary uppercase tracking-[0.2em]">Visual Assets</h3>
+                                    <p className="text-[8px] font-bold text-text-muted uppercase tracking-widest mt-1">
+                                        Collective required: <span className={totalImages < 3 ? 'text-red-400' : 'text-accent'}>{totalImages}/3</span>
+                                    </p>
+                                </div>
+                                <label className="cursor-pointer bg-white text-base-black px-6 py-2 text-[9px] font-black uppercase tracking-widest hover:bg-accent transition-all flex items-center shadow-gold-glow">
+                                    <ImageIcon size={14} className="mr-2" /> Select Ledger Asset
+                                    <input
+                                        type="file"
+                                        className="hidden"
+                                        accept="image/*"
+                                        ref={el => fileInputRefs.current[vIndex] = el}
+                                        onChange={(e) => onFileSelectToCrop(e, vIndex)}
+                                    />
+                                </label>
+                            </div>
 
-                {/* Sizes */}
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-semibold text-gray-700">Sizes & Stock</h3>
-                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddSizeClick(vIndex)} className="text-xs py-1 h-8">
-                      <Plus size={14} className="mr-1"/> Add Size
-                    </Button>
-                  </div>
-                  {variant.sizes.map((sizeObj, sIndex) => (
-                    <div key={sIndex} className="flex gap-4 items-end bg-gray-50 p-3 rounded border border-gray-100">
-                      <div className="w-1/3">
-                        <label className="text-xs font-semibold text-gray-600 block mb-1">Size (e.g. M, L, XL)</label>
-                        <Input value={sizeObj.size} onChange={(e) => handleSizeChange(vIndex, sIndex, 'size', e.target.value)} required />
-                      </div>
-                      <div className="w-1/3">
-                        <label className="text-xs font-semibold text-gray-600 block mb-1">Stock Count</label>
-                        <Input type="number" min="0" value={sizeObj.stock} onChange={(e) => handleSizeChange(vIndex, sIndex, 'stock', e.target.value)} required />
-                      </div>
-                      <button type="button" onClick={() => handleDeleteSize(vIndex, sIndex)} className="w-[40px] h-[40px] flex justify-center items-center text-gray-400 hover:text-red-500 bg-white border rounded">
-                        <Trash2 size={16} />
-                      </button>
+                            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                                {/* Already uploaded to Cloudinary */}
+                                {variant.images.map((url, imgIndex) => (
+                                <div key={`confirmed-${imgIndex}`} className="relative group/img aspect-square bg-surface/40 border border-white/10 overflow-hidden shadow-lg">
+                                    <img src={url} alt="Variant" className="w-full h-full object-cover grayscale-[0.3] group-hover/img:grayscale-0 transition-all duration-500" />
+                                    <div className="absolute inset-0 bg-base-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDeleteImage(vIndex, imgIndex)}
+                                            className="text-red-400 p-2 hover:scale-110 transition-transform"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                                ))}
+
+                                {/* Cropped locally — pending upload on submit */}
+                                {(variant.pendingBlobs || []).map((pending, blobIndex) => (
+                                <div key={`pending-${blobIndex}`} className="relative group/img aspect-square bg-surface/40 border-2 border-accent/20 overflow-hidden shadow-gold-glow/10">
+                                    <img src={pending.previewUrl} alt="Pending" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-x-0 bottom-0 bg-accent py-1 flex items-center justify-center gap-1.5">
+                                        <Clock size={10} className="text-base-black" />
+                                        <span className="text-base-black text-[8px] font-black uppercase tracking-widest">PENDING</span>
+                                    </div>
+                                    <div className="absolute inset-0 bg-base-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDeletePending(vIndex, blobIndex)}
+                                            className="text-red-400 p-2 hover:scale-110 transition-transform"
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                                ))}
+
+                                {totalImages === 0 && (
+                                <div className="col-span-full py-12 flex flex-col items-center justify-center border border-dashed border-white/5 opacity-30">
+                                     <ImageIcon size={32} className="text-text-muted mb-4" />
+                                     <p className="text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">No visual records attached</p>
+                                </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
-                  ))}
-                  {variant.sizes.length === 0 && <p className="text-sm text-gray-400 italic">No sizes added yet.</p>}
-                </div>
-              </div>
-            );
-          })}
+                </motion.div>
+                );
+            })}
+          </div>
         </div>
 
-        <div className="pt-6 border-t flex items-center justify-between gap-4">
-          {/* Upload notice */}
-          {variants.some(v => v.pendingBlobs?.length > 0) && (
-            <p className="text-sm text-amber-600 font-medium flex items-center gap-1.5">
-              <Upload size={14} />
-              {variants.reduce((acc, v) => acc + (v.pendingBlobs?.length || 0), 0)} image(s) will be uploaded on save.
-            </p>
-          )}
-          <div className="flex gap-4 ml-auto">
-            <Button type="button" variant="outline" onClick={() => navigate('/admin/products')}>Cancel</Button>
-            <Button type="submit" isLoading={isBusy} className="w-48 bg-secondary text-white hover:bg-secondary/90">
-              {isEditMode ? 'Save Changes' : 'Publish Product'}
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8 pb-20">
+          <div className="flex flex-col gap-2">
+            {variants.some(v => v.pendingBlobs?.length > 0) && (
+                <div className="flex items-center gap-3 text-accent transition-all animate-pulse">
+                <Upload size={14} />
+                <span className="text-[9px] font-black uppercase tracking-[0.2em]">Syncing {variants.reduce((acc, v) => acc + (v.pendingBlobs?.length || 0), 0)} New Assets on Publish</span>
+                </div>
+            )}
+            <p className="text-[9px] text-text-muted uppercase tracking-[0.1em] opacity-40 italic">Integrity Check: ALL DIMENSIONS MUST BE DEFINED BEFORE ARCHIVING</p>
+          </div>
+          
+          <div className="flex gap-6 w-full md:w-auto">
+            <Button type="button" variant="ghost" onClick={() => navigate('/admin/products')} className="px-10 h-12 text-[10px] tracking-[0.2em] border border-white/5">
+                Revoke Changes
+            </Button>
+            <Button type="submit" isLoading={isBusy} variant="primary" className="px-12 h-12 text-[10px] tracking-[0.2em] font-black shadow-gold-glow min-w-[220px]">
+              {isEditMode ? 'Authorize Modifications' : 'Commit to Archive'}
             </Button>
           </div>
         </div>

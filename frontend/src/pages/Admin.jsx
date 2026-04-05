@@ -25,10 +25,10 @@ export const Admin = () => {
   }, [userInfo, navigate]);
 
   const stats = [
-    { label: 'Total Revenue', value: '$45,231.89', change: '+20.1%', icon: DollarSign, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { label: 'Active Users', value: '+2,350', change: '+180.1%', icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-50' },
-    { label: 'Total Orders', value: '12,234', change: '+19%', icon: ShoppingBag, color: 'text-amber-600', bg: 'bg-amber-50' },
-    { label: 'Active Products', value: '573', change: '+201', icon: Package, color: 'text-purple-600', bg: 'bg-purple-50' },
+    { label: 'Fiscal Revenue', value: '$45,231.89', change: '+20.1%', icon: DollarSign, color: 'text-accent', bg: 'bg-accent/10' },
+    { label: 'Active Patrons', value: '+2,350', change: '+180.1%', icon: Users, color: 'text-text-primary', bg: 'bg-white/5' },
+    { label: 'Acquisition Volume', value: '12,234', change: '+19%', icon: ShoppingBag, color: 'text-accent', bg: 'bg-accent/10' },
+    { label: 'Curation Count', value: '573', change: '+201', icon: Package, color: 'text-text-primary', bg: 'bg-white/5' },
   ];
 
   const recentOrders = [
@@ -39,85 +39,99 @@ export const Admin = () => {
   ];
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-10">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-16">
       {/* Welcome Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm flex-grow relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:scale-110 transition-transform">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-10">
+          <div className="glass-panel p-12 border border-white/10 shadow-3xl flex-grow relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-12 opacity-5 scale-150 group-hover:scale-[1.6] transition-transform duration-1000 text-accent">
                   <TrendingUp size={120} />
               </div>
-              <p className="text-secondary font-bold uppercase tracking-widest text-xs mb-2 italic">System Overview</p>
-              <h1 className="text-3xl font-black text-gray-900 tracking-tight">Good morning, {userInfo?.name?.split(' ')[0]}!</h1>
-              <p className="text-gray-400 mt-2 font-medium">Your store has seen a <span className="text-emerald-500 font-bold">12% growth</span> in the last 24 hours.</p>
+              <div className="space-y-4 relative">
+                  <p className="text-accent font-bold uppercase tracking-[0.4em] text-[10px] italic opacity-80">Command Architecture • v4.2</p>
+                  <h1 className="text-5xl font-display text-text-primary tracking-tight">Bonjour, {userInfo?.name?.split(' ')[0]}</h1>
+                  <div className="flex items-center gap-4 pt-4">
+                      <div className="h-px w-8 bg-accent" />
+                      <p className="text-text-muted text-xs font-bold uppercase tracking-[0.2em]">
+                          System metrics indicate a <span className="text-accent font-black">12.4% yield increase</span> in the current cycle.
+                      </p>
+                  </div>
+              </div>
           </div>
-          <div className="flex gap-4">
-              <Link to="/admin/products/new">
-                <button className="px-6 py-4 bg-gray-900 text-white rounded-2xl font-bold flex items-center gap-2 hover:bg-gray-800 transition-all shadow-xl shadow-gray-200">
-                    Quick Add <ArrowUpRight size={18} />
+          <div className="flex gap-4 shrink-0">
+              <Link to="/admin/product/new" className="group">
+                <button className="h-16 px-10 bg-accent text-white rounded-sm font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 hover:bg-accent/90 transition-all shadow-gold-glow">
+                    New Product Specification <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </button>
               </Link>
           </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {stats.map((stat, i) => (
             <motion.div 
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                transition={{ delay: i * 0.1, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+                className="glass-panel p-8 border border-white/5 shadow-2xl hover:border-accent/30 transition-all duration-500 group"
             >
-                <div className="flex justify-between items-start mb-4">
-                    <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
-                        <stat.icon size={22} />
+                <div className="flex justify-between items-start mb-8">
+                    <div className={`w-12 h-12 flex items-center justify-center rounded-sm border border-white/5 ${stat.bg} ${stat.color} group-hover:scale-110 transition-transform duration-700`}>
+                        <stat.icon size={20} />
                     </div>
-                    <span className="text-xs font-black text-emerald-500 bg-emerald-50 px-2 py-1 rounded-lg">
+                    <span className="text-[9px] font-black text-accent bg-accent/5 px-3 py-1 border border-accent/20 tracking-widest uppercase">
                         {stat.change}
                     </span>
                 </div>
-                <h3 className="text-gray-400 text-sm font-bold uppercase tracking-wider">{stat.label}</h3>
-                <p className="text-2xl font-black text-gray-900 mt-1 tracking-tight">{stat.value}</p>
+                <h3 className="text-text-muted text-[10px] font-black uppercase tracking-[0.2em] opacity-60 mb-2 italic-editorial">{stat.label}</h3>
+                <p className="text-3xl font-display text-text-primary tracking-tighter">{stat.value}</p>
             </motion.div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Recent Orders Table */}
-          <div className="lg:col-span-2 bg-white rounded-[2.5rem] border border-gray-100 shadow-sm overflow-hidden">
-              <div className="p-8 border-b border-gray-50 flex items-center justify-between">
-                  <h3 className="text-xl font-black text-gray-900 tracking-tight">Recent Fulfillment</h3>
-                  <Link to="/admin/orderlist" className="text-secondary text-sm font-bold hover:underline">View All Orders</Link>
+          <div className="lg:col-span-8 glass-panel border border-white/5 shadow-3xl overflow-hidden">
+              <div className="p-10 border-b border-white/5 flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                       <div className="w-1 h-5 bg-accent" />
+                       <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Fulfillment Protocol</h3>
+                  </div>
+                  <Link to="/admin/orderlist" className="text-accent text-[9px] font-black uppercase tracking-[0.3em] hover:text-white transition-all border-b border-accent/30">View All Logs</Link>
               </div>
               <div className="overflow-x-auto">
                   <table className="w-full text-left">
                       <thead>
-                          <tr className="bg-gray-50/50">
-                              <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Order ID</th>
-                              <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Customer</th>
-                              <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Status</th>
-                              <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Amount</th>
+                          <tr className="bg-white/[0.02]">
+                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Sequence</th>
+                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Identity</th>
+                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Status</th>
+                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em] text-right">Valuation</th>
                           </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-50">
+                      <tbody className="divide-y divide-white/5">
                           {recentOrders.map((order) => (
-                              <tr key={order.id} className="hover:bg-gray-50/50 transition-colors group">
-                                  <td className="px-8 py-5 text-xs font-bold text-secondary font-mono">{order.id}</td>
-                                  <td className="px-8 py-5">
-                                      <p className="text-sm font-bold text-gray-900">{order.user}</p>
-                                      <p className="text-[10px] text-gray-400 font-medium">{order.time}</p>
+                              <tr key={order.id} className="hover:bg-white/[0.01] transition-all group">
+                                  <td className="px-10 py-6">
+                                      <span className="font-mono text-[11px] text-accent tracking-widest uppercase">{order.id}</span>
                                   </td>
-                                  <td className="px-8 py-5">
-                                      <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter ${
-                                          order.status === 'Delivered' ? 'bg-emerald-50 text-emerald-600' :
-                                          order.status === 'Pending' ? 'bg-amber-50 text-amber-600' :
-                                          'bg-indigo-50 text-indigo-600'
-                                      }`}>
-                                          {order.status}
-                                      </span>
+                                  <td className="px-10 py-6">
+                                      <p className="text-[11px] font-black text-text-primary uppercase tracking-[0.1em]">{order.user}</p>
+                                      <p className="text-[9px] text-text-muted font-bold uppercase tracking-widest opacity-40 mt-1">{order.time}</p>
                                   </td>
-                                  <td className="px-8 py-5 text-sm font-black text-gray-900 text-right">{order.amount}</td>
+                                  <td className="px-10 py-6">
+                                      <div className="flex items-center gap-2">
+                                          <div className={`w-1 h-1 rounded-full ${
+                                              order.status === 'Delivered' ? 'bg-accent shadow-[0_0_8px_rgba(201,169,110,0.8)]' :
+                                              order.status === 'Pending' ? 'bg-amber-500/50' : 'bg-white/20'
+                                          }`} />
+                                          <span className="text-[9px] font-black text-text-primary uppercase tracking-widest opacity-80">
+                                              {order.status}
+                                          </span>
+                                      </div>
+                                  </td>
+                                  <td className="px-10 py-6 text-sm font-bold text-text-primary text-right tracking-tighter">{order.amount}</td>
                               </tr>
                           ))}
                       </tbody>
@@ -126,38 +140,44 @@ export const Admin = () => {
           </div>
 
           {/* Activity/Alerts Sidebar */}
-          <div className="space-y-6">
-              <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
-                  <h3 className="text-xl font-black text-gray-900 tracking-tight mb-6">Inventory Alerts</h3>
-                  <div className="space-y-4">
-                      <div className="flex gap-4 p-4 bg-red-50 rounded-2xl border border-red-100 text-red-700">
-                          <AlertCircle size={24} className="shrink-0" />
+          <div className="lg:col-span-4 space-y-8">
+              <div className="glass-panel p-10 border border-white/5 shadow-2xl">
+                  <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
+                      <div className="w-1 h-4 bg-red-900" />
+                      Critical Alerts
+                  </h3>
+                  <div className="space-y-6">
+                      <div className="flex gap-5 p-6 bg-red-900/10 border border-red-900/20 text-red-400 group">
+                          <AlertCircle size={20} className="shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
                           <div>
-                              <p className="text-xs font-black uppercase tracking-widest">Stock Critical</p>
-                              <p className="text-sm font-medium mt-1">Slim Fit Denim (M) is out of stock.</p>
+                              <p className="text-[9px] font-black uppercase tracking-[0.2em]">Stock Critical</p>
+                              <p className="text-[11px] font-bold mt-2 leading-relaxed opacity-80">Slim Fit Denim (M) is currently depleted.</p>
                           </div>
                       </div>
-                      <div className="flex gap-4 p-4 bg-amber-50 rounded-2xl border border-amber-100 text-amber-700">
-                          <Clock size={24} className="shrink-0" />
+                      <div className="flex gap-5 p-6 bg-accent/5 border border-white/5 text-accent group">
+                          <Clock size={20} className="shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
                           <div>
-                              <p className="text-xs font-black uppercase tracking-widest">Reorder Soon</p>
-                              <p className="text-sm font-medium mt-1">4 items are below threshold.</p>
+                              <p className="text-[9px] font-black uppercase tracking-[0.2em]">Procurement Warning</p>
+                              <p className="text-[11px] font-bold mt-2 leading-relaxed opacity-80 text-text-muted">4 priority assets are below reorder threshold.</p>
                           </div>
                       </div>
-                      <div className="flex gap-4 p-4 bg-indigo-50 rounded-2xl border border-indigo-100 text-indigo-700">
-                          <CheckCircle2 size={24} className="shrink-0" />
+                      <div className="flex gap-5 p-6 bg-white/[0.02] border border-white/5 text-text-muted group">
+                          <CheckCircle2 size={20} className="shrink-0 opacity-40 group-hover:opacity-100 transition-opacity" />
                           <div>
-                              <p className="text-xs font-black uppercase tracking-widest">Batch Complete</p>
-                              <p className="text-sm font-medium mt-1">Winter collection sync successful.</p>
+                              <p className="text-[9px] font-black uppercase tracking-[0.2em] opacity-60">System Sync Protocol</p>
+                              <p className="text-[11px] font-bold mt-2 leading-relaxed opacity-60 italic-editorial">Winter collection integration successfully committed.</p>
                           </div>
                       </div>
                   </div>
               </div>
 
-              <div className="bg-secondary p-8 rounded-[2.5rem] text-white shadow-xl shadow-secondary/20 flex flex-col justify-between min-h-[200px]">
-                  <h4 className="text-lg font-black tracking-tight leading-tight">Need help with managing the platform?</h4>
-                  <button className="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">
-                      Documentation
+              <div className="bg-accent/10 p-10 border border-accent/20 rounded-sm relative overflow-hidden group">
+                  <div className="absolute -bottom-10 -right-10 opacity-5 group-hover:scale-110 transition-transform duration-1000">
+                       <DollarSign size={160} />
+                  </div>
+                  <h4 className="text-lg font-display text-text-primary tracking-tight mb-8 relative">Management Support & Documentation</h4>
+                  <button className="w-full h-12 bg-white/5 hover:bg-accent hover:text-white border border-white/10 rounded-sm text-[9px] font-black uppercase tracking-[0.3em] transition-all relative z-10">
+                      Access Infrastructure Guide
                   </button>
               </div>
           </div>
