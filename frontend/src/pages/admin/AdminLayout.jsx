@@ -49,19 +49,19 @@ export const AdminLayout = () => {
 
     const menuItems = [
         { name: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
-        { name: 'Categories', icon: Layers, path: '/admin/categories' },
-        { name: 'Products', icon: ShoppingBag, path: '/admin/products' },
-        { name: 'Orders', icon: ClipboardList, path: '/admin/orderlist' },
-        { name: 'Users', icon: Users, path: '/admin/users' },
-        { name: 'Sales & Analytics', icon: BarChart3, path: '/admin/sales' },
+        { name: 'Collections', icon: Layers, path: '/admin/categories' },
+        { name: 'Creations', icon: ShoppingBag, path: '/admin/products' },
+        { name: 'Fulfillment', icon: ClipboardList, path: '/admin/orderlist' },
+        { name: 'Clients', icon: Users, path: '/admin/users' },
+        { name: 'Insights', icon: BarChart3, path: '/admin/sales' },
     ];
 
     const getPageTitle = () => {
         const current = menuItems.find(item => item.path === pathname);
         if (current) return current.name;
-        if (pathname.includes('/admin/products/')) return 'Product Editor';
-        if (pathname.includes('/admin/categories/')) return 'Category Editor';
-        return 'Admin Portal';
+        if (pathname.includes('/admin/products/')) return 'Creation Suite';
+        if (pathname.includes('/admin/categories/')) return 'Collection Suite';
+        return 'The Atelier';
     };
 
     return (
@@ -96,7 +96,7 @@ export const AdminLayout = () => {
                 {/* Navigation Links */}
                 <nav className="flex-grow px-6 py-6 space-y-3">
                     <p className={`text-[10px] font-bold text-text-muted uppercase tracking-[0.3em] mb-6 px-4 transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
-                        Navigation
+                        Studio Navigation
                     </p>
                     {menuItems.map((item) => {
                         const isActive = pathname === item.path;
@@ -146,7 +146,7 @@ export const AdminLayout = () => {
                                     exit={{ opacity: 0 }}
                                     className="text-[10px] uppercase tracking-[0.2em] font-bold"
                                 >
-                                    End Session
+                                    Logout
                                 </motion.span>
                             )}
                         </AnimatePresence>
@@ -167,7 +167,7 @@ export const AdminLayout = () => {
                 {/* Top Header */}
                 <header className="h-24 bg-base-black/40 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-12 sticky top-0 z-40">
                     <div>
-                        <p className="text-[9px] font-bold text-accent uppercase tracking-[0.4em] mb-1 italic opacity-80">Management Workspace</p>
+                        <p className="text-[9px] font-bold text-accent uppercase tracking-[0.4em] mb-1 italic opacity-80">The Atelier Studio</p>
                         <h1 className="text-3xl font-display text-text-primary tracking-tight">{getPageTitle()}</h1>
                     </div>
 
@@ -178,7 +178,7 @@ export const AdminLayout = () => {
                                 type="text" 
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                placeholder="Search archives..." 
+                                placeholder="Search the atelier..." 
                                 className="bg-transparent border-none outline-none ml-3 text-xs tracking-wider text-text-primary placeholder:text-text-muted/50 w-full"
                             />
                         </div>
@@ -189,7 +189,7 @@ export const AdminLayout = () => {
                             </div>
                             <div className="hidden lg:block text-left">
                                 <p className="text-[10px] font-bold text-text-primary leading-none uppercase tracking-widest">{userInfo?.name}</p>
-                                <p className="text-[8px] font-bold text-accent uppercase tracking-[0.2em] mt-1.5 opacity-60">Admin Rank</p>
+                                <p className="text-[8px] font-bold text-accent uppercase tracking-[0.2em] mt-1.5 opacity-60">Studio Director</p>
                             </div>
                         </div>
 

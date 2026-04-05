@@ -64,8 +64,8 @@ export const Login = () => {
       >
         <div className="glass-panel p-10 md:p-14 border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.6)]">
           <header className="mb-12 text-center">
-            <h1 className="font-display text-4xl mb-3 tracking-tight">Archive</h1>
-            <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-bold">User Sanctuary — v.1.0</p>
+            <h1 className="font-display text-4xl mb-3 tracking-tight">Sign In</h1>
+            <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-bold">Access your account</p>
           </header>
 
           {error && (
@@ -76,10 +76,10 @@ export const Login = () => {
 
           <form onSubmit={submitHandler} className="space-y-8">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Email Identifier</label>
+              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Email Address</label>
               <Input 
                 type="email" 
-                placeholder="identity@hannvis.local" 
+                placeholder="email@example.com" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
                 required 
@@ -87,7 +87,7 @@ export const Login = () => {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Security Token</label>
+              <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Password</label>
               <Input 
                 type="password" 
                 placeholder="••••••••" 
@@ -104,7 +104,7 @@ export const Login = () => {
               size="lg" 
               isLoading={isLoading}
             >
-              Authenticate Portal
+              Sign In
             </Button>
           </form>
 

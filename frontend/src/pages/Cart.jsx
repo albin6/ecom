@@ -76,7 +76,7 @@ export const Cart = () => {
         </div>
         {cartItems.length > 0 && (
           <span className="text-[10px] tracking-[0.2em] font-bold text-accent uppercase bg-accent/5 px-4 py-2 border border-accent/10">
-            {totalItems} {totalItems === 1 ? 'Piece' : 'Pieces'} Securing
+            {totalItems} {totalItems === 1 ? 'Piece' : 'Pieces'} Selected
           </span>
         )}
       </header>
@@ -87,7 +87,7 @@ export const Cart = () => {
             <ShoppingBag size={64} strokeWidth={0.5} />
           </div>
           <div className="space-y-4">
-            <h2 className="text-3xl font-serif italic">Your archive is vacant</h2>
+            <h2 className="text-3xl font-serif italic">Your selection is empty</h2>
             <p className="text-[10px] tracking-widest text-text-muted uppercase">Explore our current collections to find your match</p>
           </div>
           <Link to="/">
@@ -193,11 +193,11 @@ export const Cart = () => {
               
               <div className="space-y-6">
                 <div className="flex items-center justify-between text-[11px] tracking-widest font-bold uppercase">
-                  <span className="text-text-muted">Procured Subtotal</span>
+                  <span className="text-text-muted">Subtotal</span>
                   <span className="text-text-primary text-sm font-mono">${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex items-center justify-between text-[11px] tracking-widest font-bold uppercase">
-                  <span className="text-text-muted">Transport</span>
+                  <span className="text-text-muted">Shipping</span>
                   <span className="text-success/60 italic font-serif">Complimentary</span>
                 </div>
                 <div className="flex items-center justify-between text-[11px] tracking-widest font-bold uppercase">
@@ -207,7 +207,7 @@ export const Cart = () => {
                 
                 <div className="pt-8 border-t border-white/5 flex items-end justify-between">
                   <div className="space-y-1">
-                    <span className="text-[10px] font-bold text-text-muted/40 uppercase tracking-[0.3em]">Final Amount</span>
+                    <span className="text-[10px] font-bold text-text-muted/40 uppercase tracking-[0.3em]">Total Amount</span>
                     <div className="text-3xl font-mono text-accent leading-none">${subtotal.toFixed(2)}</div>
                   </div>
                 </div>
@@ -219,7 +219,7 @@ export const Cart = () => {
                 disabled={isInitiating}
               >
                 <div className="relative z-10 flex items-center justify-center gap-3">
-                  {isInitiating ? 'Processing...' : 'Confirm Selection'}
+                  {isInitiating ? 'Processing...' : 'Proceed to Checkout'}
                   <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform duration-500" strokeWidth={3} />
                 </div>
                 <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-boutique" />
@@ -227,7 +227,7 @@ export const Cart = () => {
 
               <div className="space-y-4 pt-6 text-center">
                 <p className="text-[9px] text-text-muted/40 uppercase tracking-[0.2em] italic">
-                  Secure checkout powered by Hannvis Escrow
+                  Secure checkout with Hannvis
                 </p>
               </div>
             </div>

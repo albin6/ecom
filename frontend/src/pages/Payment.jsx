@@ -56,15 +56,15 @@ export const Payment = () => {
             <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/5 blur-[100px] rounded-full -ml-40 -mb-40 group-hover:bg-accent/10 transition-all duration-[1200ms]" />
             
             <header className="mb-16 space-y-4 relative z-10">
-              <h2 className="text-4xl lg:text-5xl font-serif italic tracking-tight">Financial Portal</h2>
-              <p className="text-[10px] tracking-[0.4em] font-bold text-text-muted uppercase">Select your preferred transfer method</p>
+              <h2 className="text-4xl lg:text-5xl font-serif italic tracking-tight">Payment Method</h2>
+              <p className="text-[10px] tracking-[0.4em] font-bold text-text-muted uppercase">How would you like to pay?</p>
             </header>
 
             <form onSubmit={submitHandler} className="space-y-12 relative z-10 text-left">
               <div className="space-y-6">
                 {[
-                  { id: 'PayPal', label: 'PAYPAL / GLOBAL CREDIT', desc: 'Secure escrow with buyer protection' },
-                  { id: 'Stripe', label: 'STRIPE PORTAL', desc: 'Encrypted direct card processing' }
+                  { id: 'PayPal', label: 'PAYPAL', desc: 'Secure payment with PayPal' },
+                  { id: 'Stripe', label: 'CREDIT CARD', desc: 'Secure payment with Stripe' }
                 ].map((method) => (
                   <label 
                     key={method.id}
@@ -116,14 +116,14 @@ export const Payment = () => {
                   type="submit" 
                   className="w-full h-18 bg-accent text-base-black text-[11px] font-bold uppercase tracking-[0.4em] group relative overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-xl"
                 >
-                  <span className="relative z-10">Establish Portal</span>
+                  <span className="relative z-10">Continue to Review</span>
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-boutique" />
                 </button>
               </div>
             </form>
 
             <p className="mt-12 text-[9px] text-text-muted/30 uppercase tracking-[0.3em] italic">
-              Encrypted 256-bit Secure Transaction Layer
+              Secure Encryption with 256-bit Protection
             </p>
           </motion.div>
         </div>

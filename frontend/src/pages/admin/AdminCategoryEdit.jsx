@@ -51,22 +51,22 @@ export const AdminCategoryEdit = () => {
   return (
     <div className="py-12 max-w-3xl mx-auto space-y-12">
       <div className="border-b border-white/5 pb-8">
-        <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] mb-2 italic opacity-80">Architecture Suite</p>
+        <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] mb-2 italic opacity-80">Collection Suite</p>
         <h1 className="text-4xl font-display text-text-primary tracking-tight">
-          {isEditMode ? 'Modify Segment' : 'Define New Segment'}
+          {isEditMode ? 'Modify Collection' : 'Define New Collection'}
         </h1>
       </div>
 
       <form onSubmit={submitHandler} className="glass-panel p-10 border border-white/10 shadow-2xl space-y-10 group">
         <div className="flex items-center gap-4">
              <div className="w-1.5 h-6 bg-accent" />
-             <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Segment Parameters</h2>
+             <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Collection Parameters</h2>
         </div>
         
         <div className="space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Segment Domain</label>
+              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Collection Name</label>
               <Input 
                 value={name} 
                 onChange={e => {
@@ -78,19 +78,19 @@ export const AdminCategoryEdit = () => {
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Archive SLUG</label>
+              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Collection SLUG</label>
               <Input value={slug} onChange={e => setSlug(e.target.value.toLowerCase())} required placeholder="outerwear" />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Segment Narrative</label>
+            <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Collection Narrative</label>
             <textarea 
               value={description} 
               onChange={e => setDescription(e.target.value)} 
               required 
               rows="4"
-              placeholder="Define the essence of this collection segment..."
+              placeholder="Define the essence of this collection..."
               className="w-full min-h-[140px] bg-white/[0.03] border border-white/5 p-6 text-sm tracking-wider leading-relaxed text-text-primary placeholder:text-text-muted/30 focus:outline-none focus:border-accent/40 transition-all duration-500 rounded-sm"
             />
           </div>
@@ -101,7 +101,7 @@ export const AdminCategoryEdit = () => {
               Revoke Changes
           </Button>
           <Button type="submit" isLoading={isCreating || isUpdating} variant="primary" className="px-12 h-12 text-[10px] tracking-[0.2em] font-black shadow-gold-glow min-w-[220px]">
-             {isEditMode ? 'Authorize Overwrite' : 'Commit to Architecture'}
+             {isEditMode ? 'Authorize Modifications' : 'Commit to Archive'}
           </Button>
         </div>
       </form>

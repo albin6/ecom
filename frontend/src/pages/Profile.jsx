@@ -45,11 +45,11 @@ export const Profile = () => {
   return (
     <div className="max-w-7xl mx-auto py-20 px-8 space-y-20">
       <header className="border-b border-white/5 pb-12">
-        <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] mb-3 italic opacity-80">Patron Dashboard</p>
-        <h1 className="font-display text-6xl tracking-tight text-text-primary">Archival Record</h1>
+        <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] mb-3 italic opacity-80">Member Dashboard</p>
+        <h1 className="font-display text-6xl tracking-tight text-text-primary">Client Portrait</h1>
         <div className="flex items-center gap-4 mt-6">
             <span className="h-px w-12 bg-accent opacity-30" />
-            <p className="text-text-muted text-[10px] uppercase tracking-[0.3em] font-bold">Personal Dossier • {userInfo?.name?.split(' ')[0]}</p>
+            <p className="text-text-muted text-[10px] uppercase tracking-[0.3em] font-bold">Personal Profile • {userInfo?.name?.split(' ')[0]}</p>
         </div>
       </header>
 
@@ -73,23 +73,23 @@ export const Profile = () => {
             
             <form className="space-y-12">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em] ml-1">Legal Nomenclature</label>
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em] ml-1">Full Name</label>
                 <Input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your Name" />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em] ml-1">Digital Coordinates</label>
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.2em] ml-1">Email Address</label>
                 <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="email@address.com" />
               </div>
               
               <Button variant="primary" className="w-full h-14 text-[10px] tracking-[0.3em] font-black shadow-gold-glow mt-4">
-                Authorize Update
+                Update Profile
               </Button>
               
               <div className="pt-12 border-t border-white/5 space-y-6">
                 {userInfo && userInfo.role === 'admin' && (
                   <Link to="/admin" className="block">
                     <Button variant="ghost" className="w-full h-12 text-[10px] tracking-[0.2em] border border-white/5 hover:border-accent hover:text-accent font-bold">
-                        Access Management Studio
+                        Access The Atelier
                     </Button>
                   </Link>
                 )}
@@ -98,7 +98,7 @@ export const Profile = () => {
                   className="w-full text-[9px] font-black uppercase tracking-[0.3em] text-red-500/60 hover:text-red-400 transition-all py-4 italic border border-dashed border-white/5 hover:border-red-900/30" 
                   onClick={logoutHandler}
                 >
-                  Terminate Authorized Session
+                  Logout
                 </button>
               </div>
             </form>
@@ -114,11 +114,11 @@ export const Profile = () => {
         >
           <div className="flex items-end justify-between border-b border-white/5 pb-6">
             <div>
-                 <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em] mb-1">Temporal Archive</h3>
-                 <p className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Acquisition history through time</p>
+                 <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em] mb-1">Order History</h3>
+                 <p className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Your collection history</p>
             </div>
             <span className="text-[10px] font-black text-accent uppercase tracking-widest bg-surface/40 px-4 py-1 border border-white/5 shadow-gold-glow/5">
-              {orders.length} Validated Records
+              {orders.length} Orders
             </span>
           </div>
 
@@ -127,13 +127,13 @@ export const Profile = () => {
               <Loader />
             </div>
           ) : error ? (
-            <Message variant="danger">{error?.data?.message || 'Archival Retrieval Failure'}</Message>
+            <Message variant="danger">{error?.data?.message || 'History Retrieval Failure'}</Message>
           ) : orders.length === 0 ? (
             <div className="glass-panel py-32 px-10 text-center border-dashed border-white/10 group">
-              <p className="text-text-muted text-sm italic italic-editorial uppercase tracking-widest opacity-60">No historical acquisitions found in this archive.</p>
+              <p className="text-text-muted text-sm italic italic-editorial uppercase tracking-widest opacity-60">No previous orders found in our records.</p>
               <Link to="/" className="inline-block mt-10">
                  <Button variant="primary" className="h-12 px-10 text-[9px] font-black tracking-[0.3em] shadow-gold-glow">
-                    Begin Primary Collection
+                    Explore Collection
                  </Button>
               </Link>
             </div>
@@ -144,10 +144,10 @@ export const Profile = () => {
                   <thead>
                     <tr className="border-b border-white/5 bg-white/[0.02]">
                       <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Reference</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Filing Date</th>
-                      <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Valuation</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Order Date</th>
+                      <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Total Price</th>
                       <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Status</th>
-                      <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Identity</th>
+                      <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Detail</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
@@ -180,7 +180,7 @@ export const Profile = () => {
                         <td className="px-8 py-6 text-right">
                           <Link to={`/order/${order._id}`}>
                             <button className="text-[10px] font-black text-accent hover:text-white transition-all uppercase tracking-[0.2em] relative overflow-hidden group/btn">
-                                <span className="relative z-10">Review Manifest</span>
+                                <span className="relative z-10">View Order</span>
                                 <div className="absolute bottom-0 left-0 w-full h-px bg-accent scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-500" />
                             </button>
                           </Link>

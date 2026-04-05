@@ -61,8 +61,8 @@ export const Register = () => {
       >
         <div className="glass-panel p-10 md:p-14 border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.7)]">
           <header className="mb-12 text-center">
-            <h1 className="font-display text-4xl mb-3 tracking-tight">Identity</h1>
-            <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-bold">New Establishment — v.1.0</p>
+            <h1 className="font-display text-4xl mb-3 tracking-tight">Create Account</h1>
+            <p className="text-text-muted text-xs uppercase tracking-[0.2em] font-bold">Join the atelier</p>
           </header>
 
           {message && <Message variant="danger" className="mb-6">{message}</Message>}
@@ -83,7 +83,7 @@ export const Register = () => {
               <label className="text-[10px] font-bold text-accent uppercase tracking-widest pl-1">Email Address</label>
               <Input 
                 type="email" 
-                placeholder="identity@hannvis.local" 
+                placeholder="email@example.com" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
                 required 
@@ -121,7 +121,7 @@ export const Register = () => {
               size="lg" 
               isLoading={isLoading}
             >
-              Establish Identity
+              Create Account
             </Button>
           </form>
 

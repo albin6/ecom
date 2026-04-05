@@ -26,8 +26,8 @@ export const AdminOrderList = () => {
         <motion.div initial="hidden" animate="visible" variants={containerVariants} className="space-y-12">
             <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-white/5 pb-8">
                 <div>
-                    <h3 className="font-display text-2xl tracking-tight">Order Archive</h3>
-                    <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2">Historical Transactions: {data?.orders?.length || 0}</p>
+                    <h3 className="font-display text-2xl tracking-tight">Fulfillment Ledger</h3>
+                    <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2">Fulfillment Records: {data?.orders?.length || 0}</p>
                 </div>
             </div>
 
@@ -36,13 +36,13 @@ export const AdminOrderList = () => {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="border-b border-white/5 bg-white/[0.02]">
-                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Reference</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Patron Identity</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Filing Date</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Total Value</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Settlement</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Fulfillment</th>
-                                <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Executive</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Order ID</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Client Name</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Order Date</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Total Price</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Payment Status</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Delivery Status</th>
+                                <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
@@ -92,7 +92,7 @@ export const AdminOrderList = () => {
                                     <td className="px-8 py-6 text-right">
                                         <Link to={`/order/${order._id}`}>
                                             <Button variant="ghost" size="sm" className="h-9 px-4 text-[9px] uppercase tracking-[0.2em] border border-white/5 hover:border-accent hover:text-accent font-bold">
-                                                <Eye size={14} className="mr-2" /> Inspect
+                                                <Eye size={14} className="mr-2" /> View Detail
                                             </Button>
                                         </Link>
                                     </td>
@@ -102,7 +102,7 @@ export const AdminOrderList = () => {
                                 <tr>
                                     <td colSpan="7" className="px-8 py-20 text-center">
                                        <p className="text-text-muted text-xs italic italic-editorial uppercase tracking-widest">
-                                          {searchQuery ? `No records found for "${searchQuery}" in archive.` : 'No archival data stream detected.'}
+                                          {searchQuery ? `No orders matching "${searchQuery}" in ledger.` : 'Fulfillment ledger is empty.'}
                                        </p>
                                     </td>
                                 </tr>

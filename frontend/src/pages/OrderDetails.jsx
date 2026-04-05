@@ -42,14 +42,14 @@ export const OrderDetails = () => {
             <div className="border-b border-white/5 pb-10 flex flex-col md:flex-row items-end justify-between gap-8">
                 <div>
                   <Link to="/profile" className="inline-flex items-center text-[10px] font-black text-accent uppercase tracking-[0.3em] hover:text-white transition-all gap-2 mb-6 group">
-                      <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Retrace to Archive
+                      <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Return to Profile
                   </Link>
-                  <h1 className="text-5xl font-display text-text-primary tracking-tight">Acquisition Manifest</h1>
-                  <p className="text-[10px] font-bold text-text-muted mt-3 uppercase tracking-[0.4em]">Reference ID: <span className="font-mono text-accent">{order.orderId || order._id.toUpperCase()}</span></p>
+                  <h1 className="text-5xl font-display text-text-primary tracking-tight">Order Details</h1>
+                  <p className="text-[10px] font-bold text-text-muted mt-3 uppercase tracking-[0.4em]">Order ID: <span className="font-mono text-accent">{order.orderId || order._id.toUpperCase()}</span></p>
                 </div>
                 <div className="flex flex-col items-end gap-3">
                     <div className={`px-6 py-2 border ${order.isPaid ? 'border-emerald-500/30 bg-emerald-500/5 text-emerald-400' : 'border-red-500/30 bg-red-500/5 text-red-400'} rounded-sm text-[10px] font-black uppercase tracking-[0.2em] shadow-lg`}>
-                        {order.isPaid ? 'Settlement Confirmed' : 'Authorization Required'}
+                        {order.isPaid ? 'Payment Confirmed' : 'Payment Pending'}
                     </div>
                     {order.isPaid && <p className="text-[9px] text-text-muted font-bold uppercase tracking-widest italic opacity-60">Verified on {new Date(order.paidAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</p>}
                 </div>
@@ -66,7 +66,7 @@ export const OrderDetails = () => {
                             <div className="absolute top-0 right-0 p-8 opacity-5 text-accent group-hover:scale-110 transition-transform duration-1000"><Truck size={60} /></div>
                             <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
                                 <div className="w-1 h-3 bg-accent" />
-                                Logistics
+                                Shipping Details
                             </h2>
                             <div className="space-y-8">
                                 <div className="space-y-1">
@@ -85,7 +85,7 @@ export const OrderDetails = () => {
                                 <div className={`p-4 border ${order.isDelivered ? 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400' : 'border-amber-500/20 bg-amber-500/5 text-amber-500'} flex items-center gap-3 transition-all duration-700`}>
                                     <div className={`h-1.5 w-1.5 rounded-full ${order.isDelivered ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)] animate-pulse' : 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)] animate-slow-ping'}`} />
                                     <p className="text-[9px] font-black uppercase tracking-[0.2em]">
-                                        {order.isDelivered ? `Finalized: ${new Date(order.deliveredAt).toLocaleDateString()}` : 'Transit Sequence Initiated'}
+                                        {order.isDelivered ? `Delivered: ${new Date(order.deliveredAt).toLocaleDateString()}` : 'Awaiting Dispatch'}
                                     </p>
                                 </div>
                             </div>
@@ -96,11 +96,11 @@ export const OrderDetails = () => {
                            <div className="absolute top-0 right-0 p-8 opacity-5 text-accent group-hover:scale-110 transition-transform duration-1000"><CreditCard size={60} /></div>
                            <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] mb-10 flex items-center gap-3">
                                 <div className="w-1 h-3 bg-accent" />
-                                Settlement
+                                Payment Method
                             </h2>
                             <div className="space-y-8">
                                 <div className="space-y-1">
-                                    <p className="text-[9px] font-black text-text-muted uppercase tracking-widest opacity-60">Financial Protocol</p>
+                                    <p className="text-[9px] font-black text-text-muted uppercase tracking-widest opacity-60">Payment Protocol</p>
                                     <p className="text-text-primary font-bold text-base tracking-widest uppercase italic">{order.paymentMethod}</p>
                                 </div>
                                 <div className="space-y-4 pt-4 border-t border-white/5">
@@ -111,7 +111,7 @@ export const OrderDetails = () => {
                                           </div>
                                           <div>
                                               <p className={`text-[10px] font-black uppercase tracking-widest ${order.isPaid ? 'text-emerald-400' : 'text-red-400'}`}>
-                                                  {order.isPaid ? 'PAYMENT RECEIVED' : 'AWAITING DISHURSEMENT'}
+                                                  {order.isPaid ? 'PAYMENT RECEIVED' : 'WAITING FOR PAYMENT'}
                                               </p>
                                               <p className="text-[9px] font-bold text-text-muted truncate max-w-[200px] uppercase opacity-40 mt-1">Transaction Verified through secure bridge</p>
                                           </div>
@@ -126,9 +126,9 @@ export const OrderDetails = () => {
                         <div className="flex items-center justify-between border-b border-white/5 pb-4">
                             <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] flex items-center gap-3">
                                 <div className="w-1 h-3 bg-accent" />
-                                Collection Contents
+                                Order Items
                             </h2>
-                            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest italic opacity-40">{order.orderItems.length} Units Secured</p>
+                            <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest italic opacity-40">{order.orderItems.length} Items</p>
                         </div>
                         <div className="space-y-2">
                             {order.orderItems.map((item, index) => (
@@ -145,15 +145,15 @@ export const OrderDetails = () => {
                                             <Link to={`/product/${item.product}`} className="text-xl font-display text-text-primary hover:text-accent transition-colors block">
                                                 {item.name}
                                             </Link>
-                                            <p className="text-[9px] font-mono text-text-muted uppercase tracking-widest mt-1 opacity-60">Asset Registry: {item.product.substring(18).toUpperCase()}</p>
+                                            <p className="text-[9px] font-mono text-text-muted uppercase tracking-widest mt-1 opacity-60">Ref ID: {item.product.substring(18).toUpperCase()}</p>
                                         </div>
-                                        <div className="flex gap-8">
+                                         <div className="flex gap-8">
                                             <div className="space-y-1">
-                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-text-muted block opacity-50">Chromatic</span>
+                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-text-muted block opacity-50">Color</span>
                                                 <span className="text-[10px] font-bold text-text-primary uppercase tracking-widest">{item.color}</span>
                                             </div>
                                             <div className="space-y-1 border-l border-white/5 pl-8">
-                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-text-muted block opacity-50">Scale</span>
+                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-text-muted block opacity-50">Size</span>
                                                 <span className="text-[10px] font-bold text-text-primary uppercase tracking-widest">{item.size}</span>
                                             </div>
                                             <div className="space-y-1 border-l border-white/5 pl-8">
@@ -181,21 +181,21 @@ export const OrderDetails = () => {
                         
                         <h2 className="text-[10px] font-black text-text-primary uppercase tracking-[0.3em] mb-12 flex items-center gap-3">
                             <div className="w-1 h-3 bg-accent" />
-                            Financial Ledger
+                            Order Summary
                         </h2>
                         
                         <div className="space-y-8 relative">
                             <div className="space-y-6">
-                                <div className="flex justify-between items-center">
-                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Itemized Gross</span>
+                                 <div className="flex justify-between items-center">
+                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Subtotal</span>
                                     <span className="text-text-primary font-bold text-sm tracking-wider">${order.itemsPrice.toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Fulfillment Logistics</span>
+                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Shipping</span>
                                     <span className="text-text-primary font-bold text-sm tracking-wider">${order.shippingPrice.toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">Statutory Assessment (GST)</span>
+                                    <span className="text-[10px] font-black text-text-muted uppercase tracking-widest opacity-60 italic-editorial">GST (18%)</span>
                                     <span className="text-text-primary font-bold text-sm tracking-wider">${order.taxPrice.toLocaleString()}</span>
                                 </div>
                             </div>
@@ -203,7 +203,7 @@ export const OrderDetails = () => {
                             <div className="h-px bg-white/5 my-10" />
 
                             <div className="space-y-2">
-                                <p className="text-[9px] font-black text-accent uppercase tracking-[0.4em] mb-2 pl-1">Consolidated Total</p>
+                                <p className="text-[9px] font-black text-accent uppercase tracking-[0.4em] mb-2 pl-1">Order Total</p>
                                 <div className="flex items-baseline justify-between">
                                     <p className="text-5xl font-display text-text-primary tracking-tighter">${order.totalPrice.toLocaleString()}</p>
                                     <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest opacity-40">USD</span>
@@ -225,7 +225,7 @@ export const OrderDetails = () => {
                                     variant="primary"
                                     className="w-full h-14 text-[10px] tracking-[0.3em] font-black uppercase shadow-gold-glow"
                                 >
-                                    Authorize Delivery Completion
+                                    Confirm Delivery
                                 </Button>
                             )}
                             

@@ -184,7 +184,7 @@ export const ProductListing = () => {
                 type="text"
                 value={keyword}
                 onChange={e => setKeyword(e.target.value)}
-                placeholder="PROCURING PIECES..."
+                placeholder="SEARCH THE COLLECTION..."
                 className="input-editorial text-[10px] tracking-widest placeholder:text-text-muted/30 pb-4 h-auto"
               />
               <Search className="absolute right-0 top-0 text-text-muted/40 group-focus-within:text-accent transition-colors" size={12} />
@@ -258,7 +258,7 @@ export const ProductListing = () => {
             </div>
           ) : error ? (
             <div className="p-12 border border-error/20 bg-error/5 text-error font-serif text-center italic">
-              The archive could not be accessed at this time.
+              The collection could not be accessed at this time.
             </div>
           ) : data?.products?.length === 0 ? (
             <div className="py-32 text-center">
@@ -268,7 +268,7 @@ export const ProductListing = () => {
                 onClick={clearFilters}
                 className="btn btn-secondary px-12 h-12"
               >
-                Clear Archives
+                Reset Filters
               </button>
             </div>
           ) : (
@@ -392,7 +392,7 @@ const FilterPanel = ({ categories, category, minPrice, maxPrice, hasFilters, onC
             onClick={() => onPriceApply(localMin, localMax)}
             className="w-full btn btn-secondary h-10 text-[10px]"
           >
-            Curate Price
+            Apply Filter
           </button>
           {hasFilters && (
             <button onClick={onClearFilters} className="w-full text-[9px] uppercase tracking-widest text-error/60 hover:text-error transition-colors pt-4 border-t border-white/5 font-bold">
@@ -457,7 +457,7 @@ const ProductListCard = ({ product, onAddToCart, justAdded, userInfo, isLarge })
               onClick={(e) => { e.preventDefault(); setShowOptions(true); }}
               className="bg-accent text-base-black text-[10px] tracking-widest font-bold px-8 py-3 uppercase hover:bg-white transition-colors"
             >
-              Secure Piece
+              Add to Selection
             </button>
           </div>
         )}
@@ -523,7 +523,7 @@ const ProductListCard = ({ product, onAddToCart, justAdded, userInfo, isLarge })
                 disabled={!activeSize}
                 className="flex-1 bg-accent text-base-black text-[10px] font-bold py-3 uppercase hover:bg-white transition-all disabled:opacity-30"
               >
-                Confirm Procurement
+                Add to Selection
               </button>
               <button onClick={() => setShowOptions(false)} className="px-4 text-text-muted hover:text-text-primary transition-colors">
                 <X size={16} strokeWidth={1} />
@@ -534,7 +534,7 @@ const ProductListCard = ({ product, onAddToCart, justAdded, userInfo, isLarge })
 
         {justAdded && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 p-3 bg-success/10 border border-success/20 text-success text-[10px] tracking-widest font-bold uppercase text-center italic">
-            Piece Secured
+            Added to Selection
           </motion.div>
         )}
       </div>

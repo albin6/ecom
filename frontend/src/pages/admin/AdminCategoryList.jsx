@@ -16,7 +16,7 @@ export const AdminCategoryList = () => {
   const [toggleBlock, { isLoading: isToggling }] = useToggleBlockCategoryMutation();
   
   const handleDelete = async (id) => {
-    if (window.confirm('WARNING: Deleting a category will orphan any products nested under it. This action is terminal.')) {
+    if (window.confirm('WARNING: Deleting a collection will orphan any creations nested under it. This action is terminal.')) {
       try {
         await deleteCategory(id).unwrap();
         refetch();
@@ -27,7 +27,7 @@ export const AdminCategoryList = () => {
   };
 
   const handleToggleBlock = async (id) => {
-    if (window.confirm('Toggling this block status will cascade visibility across ALL nested products natively in real-time. Proceed?')) {
+    if (window.confirm('Toggling this status will cascade visibility across ALL nested creations natively in real-time. Proceed?')) {
       try {
         await toggleBlock(id).unwrap();
         refetch();
@@ -41,12 +41,12 @@ export const AdminCategoryList = () => {
     <div className="space-y-12">
       <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-white/5 pb-8">
         <div>
-          <h3 className="font-display text-2xl tracking-tight">Category Ledger</h3>
-          <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2">Classified Segments: {data?.categories?.length || 0}</p>
+          <h3 className="font-display text-2xl tracking-tight">Collection Archive</h3>
+          <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2">Studio Collections: {data?.categories?.length || 0}</p>
         </div>
         <Link to="/admin/categories/new">
           <Button className="h-12 px-8 text-[10px] tracking-[0.2em]" variant="primary">
-            <Plus size={16} className="mr-2" /> Define New Segment
+            <Plus size={16} className="mr-2" /> New Collection
           </Button>
         </Link>
       </div>
@@ -56,7 +56,7 @@ export const AdminCategoryList = () => {
           <Loader />
         </div>
       ) : error ? (
-        <Message variant="danger">{error?.data?.message || 'Data stream interrupted.'}</Message>
+        <Message variant="danger">{error?.data?.message || 'Archive stream interrupted.'}</Message>
       ) : (
         <>
           <div className="glass-panel overflow-hidden border border-white/10 shadow-2xl">
@@ -64,11 +64,11 @@ export const AdminCategoryList = () => {
               <table className="w-full text-left">
                 <thead>
                   <tr className="border-b border-white/5 bg-white/[0.02]">
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Reference</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Segment Name</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Slug Path</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Coll. ID</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Collection Name</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">URL Slug</th>
                     <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Status</th>
-                    <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Executive</th>
+                    <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -83,9 +83,9 @@ export const AdminCategoryList = () => {
                       <td className="px-8 py-6 font-mono text-[9px] text-text-muted uppercase tracking-tighter opacity-60">/{category.slug}</td>
                       <td className="px-8 py-6">
                         {category.isBlocked ? (
-                          <span className="text-[9px] font-black bg-red-900/10 text-red-400 px-2.5 py-1 rounded-sm border border-red-900/20 uppercase tracking-widest">Quarantined</span>
+                          <span className="text-[9px] font-black bg-red-900/10 text-red-400 px-2.5 py-1 rounded-sm border border-red-900/20 uppercase tracking-widest">Hidden</span>
                         ) : (
-                          <span className="text-[9px] font-black bg-emerald-900/10 text-emerald-400 px-2.5 py-1 rounded-sm border border-emerald-900/20 uppercase tracking-widest">Active Listing</span>
+                          <span className="text-[9px] font-black bg-emerald-900/10 text-emerald-400 px-2.5 py-1 rounded-sm border border-emerald-900/20 uppercase tracking-widest">Visible</span>
                         )}
                       </td>
                       <td className="px-8 py-6 text-right">
@@ -101,7 +101,7 @@ export const AdminCategoryList = () => {
                              variant="ghost"
                              size="sm"
                              className={`w-9 h-9 p-0 border border-white/5 ${category.isBlocked ? 'hover:border-emerald-50 hover:text-emerald-400' : 'hover:border-orange-900 hover:text-orange-400'}`}
-                             title={category.isBlocked ? 'Reinstate Visibility' : 'Quarantine Entire Branch'}
+                             title={category.isBlocked ? 'Reinstate Visibility' : 'Hide Collection'}
                            >
                              {category.isBlocked ? <ShieldCheck size={14} /> : <ShieldBan size={14} />}
                            </Button>
@@ -122,7 +122,7 @@ export const AdminCategoryList = () => {
                     <tr>
                       <td colSpan="5" className="px-8 py-20 text-center">
                         <p className="text-text-muted text-xs italic italic-editorial uppercase tracking-widest">
-                          {searchQuery ? `No matches found for "${searchQuery}" in archive.` : 'No categories allocated.'}
+                          {searchQuery ? `No collections matching "${searchQuery}" in archive.` : 'No collections established.'}
                         </p>
                       </td>
                     </tr>

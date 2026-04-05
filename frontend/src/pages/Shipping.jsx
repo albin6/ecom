@@ -54,17 +54,17 @@ export const Shipping = () => {
             <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 blur-[120px] rounded-full -mr-48 -mt-48 group-hover:bg-accent/10 transition-all duration-[1200ms]" />
             
             <header className="mb-16 space-y-4 relative z-10">
-              <h2 className="text-4xl lg:text-5xl font-serif italic tracking-tight">Delivery Portal</h2>
-              <p className="text-[10px] tracking-[0.4em] font-bold text-text-muted uppercase">Enter your archival destination</p>
+              <h2 className="text-4xl lg:text-5xl font-serif italic tracking-tight">Delivery Details</h2>
+              <p className="text-[10px] tracking-[0.4em] font-bold text-text-muted uppercase">Where shall we send your selection?</p>
             </header>
 
             <form onSubmit={submitHandler} className="space-y-12 relative z-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="md:col-span-2 space-y-4">
-                  <label className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase opacity-40">Archival Address</label>
+                  <label className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase opacity-40">Shipping Address</label>
                   <input 
                     className="w-full bg-transparent border-b border-white/10 py-4 font-serif text-lg italic text-text-primary focus:border-accent focus:outline-none transition-all placeholder:text-text-muted/20"
-                    placeholder="Physical location..." 
+                    placeholder="Enter your address..." 
                     value={address} 
                     onChange={(e) => setAddress(e.target.value)} 
                     required 
@@ -75,7 +75,7 @@ export const Shipping = () => {
                   <label className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase opacity-40">City</label>
                   <input 
                     className="w-full bg-transparent border-b border-white/10 py-4 font-serif text-lg italic text-text-primary focus:border-accent focus:outline-none transition-all placeholder:text-text-muted/20"
-                    placeholder="The Metropolis..." 
+                    placeholder="Enter your city..." 
                     value={city} 
                     onChange={(e) => setCity(e.target.value)} 
                     required 
@@ -83,10 +83,10 @@ export const Shipping = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <label className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase opacity-40">Archive Code</label>
-                  <input 
+                  <label className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase opacity-40">Postal Code</label>
+<input 
                     className="w-full bg-transparent border-b border-white/10 py-4 font-mono text-sm tracking-widest text-text-primary focus:border-accent focus:outline-none transition-all placeholder:text-text-muted/20"
-                    placeholder="000-000" 
+                    placeholder="Postal Code" 
                     value={postalCode} 
                     onChange={(e) => setPostalCode(e.target.value)} 
                     required 
@@ -94,10 +94,10 @@ export const Shipping = () => {
                 </div>
 
                 <div className="md:col-span-2 space-y-4">
-                  <label className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase opacity-40">Sovereign State / Country</label>
+                  <label className="text-[9px] tracking-[0.3em] font-bold text-text-muted uppercase opacity-40">Country</label>
                   <input 
                     className="w-full bg-transparent border-b border-white/10 py-4 font-serif text-lg italic text-text-primary focus:border-accent focus:outline-none transition-all placeholder:text-text-muted/20"
-                    placeholder="Select jurisdiction..." 
+                    placeholder="Select country..." 
                     value={country} 
                     onChange={(e) => setCountry(e.target.value)} 
                     required 
@@ -111,7 +111,7 @@ export const Shipping = () => {
                   className="w-full h-18 bg-accent text-base-black text-[11px] font-bold uppercase tracking-[0.4em] group relative overflow-hidden transition-all hover:scale-[1.02] active:scale-95"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-4">
-                    Secure Delivery Details
+                    Continue to Payment
                     <ArrowRight size={14} className="group-hover:translate-x-4 transition-transform duration-700" />
                   </span>
                   <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-boutique" />

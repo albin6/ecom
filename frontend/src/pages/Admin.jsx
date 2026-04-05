@@ -25,10 +25,10 @@ export const Admin = () => {
   }, [userInfo, navigate]);
 
   const stats = [
-    { label: 'Fiscal Revenue', value: '$45,231.89', change: '+20.1%', icon: DollarSign, color: 'text-accent', bg: 'bg-accent/10' },
-    { label: 'Active Patrons', value: '+2,350', change: '+180.1%', icon: Users, color: 'text-text-primary', bg: 'bg-white/5' },
-    { label: 'Acquisition Volume', value: '12,234', change: '+19%', icon: ShoppingBag, color: 'text-accent', bg: 'bg-accent/10' },
-    { label: 'Curation Count', value: '573', change: '+201', icon: Package, color: 'text-text-primary', bg: 'bg-white/5' },
+    { label: 'Atelier Revenue', value: '$45,231.89', change: '+20.1%', icon: DollarSign, color: 'text-accent', bg: 'bg-accent/10' },
+    { label: 'Active Clients', value: '+2,350', change: '+180.1%', icon: Users, color: 'text-text-primary', bg: 'bg-white/5' },
+    { label: 'Order Volume', value: '12,234', change: '+19%', icon: ShoppingBag, color: 'text-accent', bg: 'bg-accent/10' },
+    { label: 'Collection Count', value: '573', change: '+201', icon: Package, color: 'text-text-primary', bg: 'bg-white/5' },
   ];
 
   const recentOrders = [
@@ -47,7 +47,7 @@ export const Admin = () => {
                   <TrendingUp size={120} />
               </div>
               <div className="space-y-4 relative">
-                  <p className="text-accent font-bold uppercase tracking-[0.4em] text-[10px] italic opacity-80">Command Architecture • v4.2</p>
+                  <p className="text-accent font-bold uppercase tracking-[0.4em] text-[10px] italic opacity-80">Studio Infrastructure • v4.2</p>
                   <h1 className="text-5xl font-display text-text-primary tracking-tight">Bonjour, {userInfo?.name?.split(' ')[0]}</h1>
                   <div className="flex items-center gap-4 pt-4">
                       <div className="h-px w-8 bg-accent" />
@@ -60,7 +60,7 @@ export const Admin = () => {
           <div className="flex gap-4 shrink-0">
               <Link to="/admin/product/new" className="group">
                 <button className="h-16 px-10 bg-accent text-white rounded-sm font-black text-[10px] uppercase tracking-[0.3em] flex items-center gap-4 hover:bg-accent/90 transition-all shadow-gold-glow">
-                    New Product Specification <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    New Collection Piece <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </button>
               </Link>
           </div>
@@ -96,18 +96,18 @@ export const Admin = () => {
               <div className="p-10 border-b border-white/5 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                        <div className="w-1 h-5 bg-accent" />
-                       <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Fulfillment Protocol</h3>
+                       <h3 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Order Fulfillment</h3>
                   </div>
-                  <Link to="/admin/orderlist" className="text-accent text-[9px] font-black uppercase tracking-[0.3em] hover:text-white transition-all border-b border-accent/30">View All Logs</Link>
+                  <Link to="/admin/orderlist" className="text-accent text-[9px] font-black uppercase tracking-[0.3em] hover:text-white transition-all border-b border-accent/30">View All Records</Link>
               </div>
               <div className="overflow-x-auto">
                   <table className="w-full text-left">
                       <thead>
                           <tr className="bg-white/[0.02]">
-                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Sequence</th>
-                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Identity</th>
+                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Reference</th>
+                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Client</th>
                               <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em]">Status</th>
-                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em] text-right">Valuation</th>
+                              <th className="px-10 py-5 text-[9px] font-black text-text-muted uppercase tracking-[0.2em] text-right">Amount</th>
                           </tr>
                       </thead>
                       <tbody className="divide-y divide-white/5">

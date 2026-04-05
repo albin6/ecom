@@ -16,18 +16,18 @@ export const AdminProductList = () => {
   const [toggleBlock, { isLoading: isToggling }] = useToggleBlockProductMutation();
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to completely delete this product?')) {
+    if (window.confirm('Are you sure you want to remove this piece from the archive?')) {
       try {
         await deleteProduct(id).unwrap();
         refetch();
       } catch (err) {
-        alert(err?.data?.message || 'Delete failed');
+        alert(err?.data?.message || 'Removal failed');
       }
     }
   };
 
   const handleToggleBlock = async (id) => {
-    if (window.confirm('Toggle block status for this product?')) {
+    if (window.confirm('Toggle status for this creation?')) {
       try {
         await toggleBlock(id).unwrap();
         refetch();
@@ -41,12 +41,12 @@ export const AdminProductList = () => {
     <div className="space-y-12">
       <div className="flex flex-col md:flex-row justify-between items-end gap-6 border-b border-white/5 pb-8">
         <div>
-          <h3 className="font-display text-2xl tracking-tight">Product Ledger</h3>
-          <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2">{data?.products?.length || 0} Assets in Inventory</p>
+          <h3 className="font-display text-2xl tracking-tight">Creation Archive</h3>
+          <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-2">{data?.products?.length || 0} Creations in Studio</p>
         </div>
         <Link to="/admin/products/new">
           <Button className="h-12 px-8 text-[10px] tracking-[0.2em]" variant="primary">
-            <Plus size={16} className="mr-2" /> Create New Asset
+            <Plus size={16} className="mr-2" /> New Creation
           </Button>
         </Link>
       </div>
@@ -56,7 +56,7 @@ export const AdminProductList = () => {
           <Loader />
         </div>
       ) : error ? (
-        <Message variant="danger">{error?.data?.message || 'Inventory Retrieval Failure'}</Message>
+        <Message variant="danger">{error?.data?.message || 'Archive Retrieval Failure'}</Message>
       ) : (
         <>
           <div className="glass-panel overflow-hidden border border-white/10 shadow-2xl">
@@ -64,12 +64,12 @@ export const AdminProductList = () => {
               <table className="w-full text-left">
                 <thead>
                   <tr className="border-b border-white/5 bg-white/[0.02]">
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Reference</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Asset Identity</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Class</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Valuation</th>
-                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Availability</th>
-                    <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Executive</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Art. No.</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Creation Name</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Collection</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Market Price</th>
+                    <th className="px-8 py-5 text-[10px] font-black text-accent uppercase tracking-[0.2em]">Status</th>
+                    <th className="px-8 py-5 text-right text-[10px] font-black text-accent uppercase tracking-[0.2em]">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -95,7 +95,7 @@ export const AdminProductList = () => {
                       </td>
                       <td className="px-8 py-6">
                         <span className="text-[9px] font-black text-text-muted border border-white/10 px-2 py-0.5 rounded-sm uppercase tracking-widest">
-                          {product.category?.name || 'Unclassified'}
+                          {product.category?.name || 'Undefined Collection'}
                         </span>
                       </td>
                       <td className="px-8 py-6 font-bold text-text-primary">
@@ -103,9 +103,9 @@ export const AdminProductList = () => {
                       </td>
                       <td className="px-8 py-6">
                         {product.isBlocked ? (
-                          <span className="text-[9px] font-black bg-red-900/10 text-red-400 px-2.5 py-1 rounded-sm border border-red-900/20 uppercase tracking-widest">Restricted</span>
+                          <span className="text-[9px] font-black bg-red-900/10 text-red-400 px-2.5 py-1 rounded-sm border border-red-900/20 uppercase tracking-widest">Archived</span>
                         ) : (
-                          <span className="text-[9px] font-black bg-emerald-900/10 text-emerald-400 px-2.5 py-1 rounded-sm border border-emerald-900/20 uppercase tracking-widest">Authorized</span>
+                          <span className="text-[9px] font-black bg-emerald-900/10 text-emerald-400 px-2.5 py-1 rounded-sm border border-emerald-900/20 uppercase tracking-widest">Active</span>
                         )}
                       </td>
                       <td className="px-8 py-6 text-right">
@@ -141,7 +141,7 @@ export const AdminProductList = () => {
                     <tr>
                       <td colSpan="6" className="px-8 py-20 text-center">
                         <p className="text-text-muted text-xs italic italic-editorial uppercase tracking-widest">
-                          {searchQuery ? `No assets matching "${searchQuery}" in archive.` : 'No archival records found.'}
+                          {searchQuery ? `No creations matching "${searchQuery}" in studio.` : 'Studio archive is empty.'}
                         </p>
                       </td>
                     </tr>

@@ -42,19 +42,19 @@ export const Home = () => {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
             className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-semibold tracking-wide uppercase mb-6"
           >
-            Spring Collection 2026
+            The 2026 Editorial
           </motion.span>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             className="text-5xl sm:text-7xl font-black text-white tracking-tight mb-6 leading-tight"
           >
-            Redefining <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Elegance.</span>
+            The Modern <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">Atelier.</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
             className="text-lg sm:text-xl text-gray-300 mb-10 max-w-2xl font-light"
           >
-            Discover our meticulously curated selection of premium apparel. Designed for comfort, tailored for distinction.
+            Explore our curated creations. Tailored for distinction.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
@@ -62,11 +62,11 @@ export const Home = () => {
           >
             <Link to="/shop">
               <Button size="lg" className="w-full sm:w-auto text-lg rounded-full px-8 shadow-lg shadow-secondary/30">
-                Shop Now
+                Enter the Atelier
               </Button>
             </Link>
             <Button variant="glass" size="lg" className="w-full sm:w-auto text-lg rounded-full px-8 text-white hover:text-white border-white/30">
-              Explore Lookbook
+              View Editorial
             </Button>
           </motion.div>
         </div>
@@ -82,7 +82,7 @@ export const Home = () => {
             <div className="h-14 w-14 bg-indigo-50 rounded-full flex items-center justify-center mb-4 text-secondary">
               <Truck size={28} />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Free Express Delivery</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Atelier Logistics</h3>
             <p className="text-gray-500 text-sm leading-relaxed">Complimentary shipping on all premium orders over $150.</p>
           </motion.div>
           <motion.div variants={fadeUp} className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
@@ -106,7 +106,7 @@ export const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-24">
         <div className="flex justify-between items-end mb-10">
           <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">Trending Now</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight mb-2">Seasonal Focus</h2>
             <p className="text-gray-500">Curated selections from our global catalog.</p>
           </div>
           <Link to="/shop">
@@ -136,11 +136,11 @@ export const Home = () => {
            <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-50 mix-blend-overlay" />
            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-transparent" />
            <div className="relative z-10 p-10 md:p-16 max-w-2xl">
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">Elevate Your Wardrobe.</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">Refine Your Silhouette.</h2>
               <p className="text-gray-300 text-lg mb-8">Join thousands of exclusive members receiving curated Drops and early-access privileges globally.</p>
               <div className="flex gap-3">
                 <input type="email" placeholder="Enter your email" className="h-12 px-4 rounded-lg w-full max-w-xs focus:outline-none focus:ring-2 focus:ring-secondary text-gray-900" />
-                <Button size="lg" className="h-12 rounded-lg">Subscribe</Button>
+                <Button size="lg" className="h-12 rounded-lg">Join the List</Button>
               </div>
            </div>
          </div>

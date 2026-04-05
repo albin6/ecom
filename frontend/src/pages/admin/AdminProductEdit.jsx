@@ -235,9 +235,9 @@ export const AdminProductEdit = () => {
   return (
     <div className="py-12 max-w-5xl mx-auto space-y-12">
       <div className="border-b border-white/5 pb-8">
-        <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] mb-2 italic opacity-80">Specification Suite</p>
+        <p className="text-[10px] font-bold text-accent uppercase tracking-[0.4em] mb-2 italic opacity-80">Creation Suite</p>
         <h1 className="text-4xl font-display text-text-primary tracking-tight">
-          {isEditMode ? 'Modify Asset' : 'Define New Asset'}
+          {isEditMode ? 'Modify Selection' : 'Define New Creation'}
         </h1>
       </div>
 
@@ -246,28 +246,28 @@ export const AdminProductEdit = () => {
         <div className="glass-panel p-10 border border-white/10 shadow-2xl space-y-10 group">
           <div className="flex items-center gap-4">
                <div className="w-1.5 h-6 bg-accent" />
-               <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Core Identity</h2>
+               <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em]">Creation Identity</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
             <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Asset Nomenclature</label>
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Piece Nomenclature</label>
                 <Input value={name} onChange={e => setName(e.target.value)} required placeholder="e.g. Atelier Wool Coat" />
             </div>
             <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Archive SLUG</label>
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Collection SLUG</label>
                 <Input value={slug} onChange={e => setSlug(e.target.value)} required placeholder="atelier-wool-coat" />
             </div>
             <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Market Valuation ($)</label>
+                <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Retail Valuation ($)</label>
                 <Input type="number" min="0" step="0.01" value={price} onChange={e => setPrice(e.target.value)} required placeholder="0.00" />
             </div>
             <div className="relative space-y-1.5">
-              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Classification Segment</label>
+              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Collection Segment</label>
               <div className="relative">
                 <input
                   type="text"
                   value={categorySearchTerm}
-                  placeholder="Identify classification..."
+                  placeholder="Identify collection..."
                   onChange={(e) => {
                     setCategorySearchTerm(e.target.value);
                     setCategory('');
@@ -286,7 +286,7 @@ export const AdminProductEdit = () => {
                     >
                       <div className="p-2 space-y-1">
                         {categoriesLoading ? (
-                          <div className="text-[10px] font-bold p-4 text-text-muted text-center uppercase tracking-widest">Accessing Registers...</div>
+                          <div className="text-[10px] font-bold p-4 text-text-muted text-center uppercase tracking-widest">Accessing Archives...</div>
                         ) : categories?.filter(c => c.name.toLowerCase().includes(categorySearchTerm.toLowerCase())).length === 0 ? (
                           <div className="text-[10px] font-bold p-4 text-text-muted text-center uppercase tracking-widest">No segments found</div>
                         ) : (
@@ -311,7 +311,7 @@ export const AdminProductEdit = () => {
               </div>
             </div>
             <div className="col-span-1 md:col-span-2 space-y-1.5 pt-4">
-              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Atelier Narrative</label>
+              <label className="text-[10px] font-bold text-text-muted uppercase tracking-[0.1em] ml-1">Piece Narrative</label>
               <textarea
                 value={description}
                 onChange={e => setDescription(e.target.value)}
@@ -328,7 +328,7 @@ export const AdminProductEdit = () => {
         <div className="space-y-10">
           <div className="flex justify-between items-end border-b border-white/5 pb-6">
             <div>
-                 <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em] mb-1">Curation Variants</h2>
+                 <h2 className="text-sm font-black text-text-primary uppercase tracking-[0.2em] mb-1">Style Variants</h2>
                  <p className="text-[9px] font-bold text-text-muted uppercase tracking-widest">Chromatic and Dimensional Multiplicity</p>
             </div>
             <Button type="button" variant="ghost" onClick={handleAddVariant} className="h-10 px-6 text-[9px] tracking-[0.2em] border border-white/5 hover:border-accent hover:text-accent font-bold">
@@ -357,20 +357,20 @@ export const AdminProductEdit = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                         <div className="lg:col-span-4 space-y-8">
                             <div className="space-y-1.5">
-                                <label className="text-[9px] font-black text-text-muted uppercase tracking-widest">Chromatic Profile</label>
+                                <label className="text-[9px] font-black text-text-muted uppercase tracking-widest">Palette Selection</label>
                                 <Input value={variant.color} onChange={(e) => handleVariantColorChange(vIndex, e.target.value)} required placeholder="e.g. Noir Abyss" />
                             </div>
 
                             {/* Sizes */}
                             <div className="space-y-4 pt-6">
                                 <div className="flex justify-between items-center">
-                                    <h3 className="text-[9px] font-black text-text-primary uppercase tracking-[0.2em]">Scale & Inventory</h3>
+                                    <h3 className="text-[9px] font-black text-text-primary uppercase tracking-[0.2em]">Sizing & Stock</h3>
                                     <button 
                                         type="button" 
                                         onClick={() => handleAddSizeClick(vIndex)} 
                                         className="text-[9px] font-black text-accent uppercase tracking-widest hover:underline transition-all"
                                     >
-                                        + Apportion Size
+                                        + Add Measurement
                                     </button>
                                 </div>
                                 <div className="space-y-4">
@@ -474,7 +474,7 @@ export const AdminProductEdit = () => {
             {variants.some(v => v.pendingBlobs?.length > 0) && (
                 <div className="flex items-center gap-3 text-accent transition-all animate-pulse">
                 <Upload size={14} />
-                <span className="text-[9px] font-black uppercase tracking-[0.2em]">Syncing {variants.reduce((acc, v) => acc + (v.pendingBlobs?.length || 0), 0)} New Assets on Publish</span>
+                <span className="text-[9px] font-black uppercase tracking-[0.2em]">Syncing {variants.reduce((acc, v) => acc + (v.pendingBlobs?.length || 0), 0)} New Pieces on Publish</span>
                 </div>
             )}
             <p className="text-[9px] text-text-muted uppercase tracking-[0.1em] opacity-40 italic">Integrity Check: ALL DIMENSIONS MUST BE DEFINED BEFORE ARCHIVING</p>
@@ -485,7 +485,7 @@ export const AdminProductEdit = () => {
                 Revoke Changes
             </Button>
             <Button type="submit" isLoading={isBusy} variant="primary" className="px-12 h-12 text-[10px] tracking-[0.2em] font-black shadow-gold-glow min-w-[220px]">
-              {isEditMode ? 'Authorize Modifications' : 'Commit to Archive'}
+              {isEditMode ? 'Authorize Modifications' : 'Commit to Collection'}
             </Button>
           </div>
         </div>

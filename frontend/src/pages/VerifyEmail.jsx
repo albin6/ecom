@@ -43,12 +43,12 @@ export const VerifyEmail = () => {
       animate={{ opacity: 1, y: 0 }}
       className="max-w-md mx-auto mt-20 p-8 bg-white border rounded-xl shadow-lg text-center"
     >
-      <h2 className="text-2xl font-bold mb-6 text-gray-900">Email Verification</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-900">Identity Verification</h2>
       
       {status === 'loading' && (
         <div className="flex flex-col items-center justify-center space-y-4 my-8">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1E40AF]"></div>
-          <p className="text-gray-600 font-medium">Verifying your email...</p>
+          <p className="text-gray-600 font-medium">Authenticating your identity...</p>
         </div>
       )}
       
@@ -56,7 +56,7 @@ export const VerifyEmail = () => {
         <div>
           <Message variant="success" className="mb-6">{message}</Message>
           <Link to="/">
-            <Button className="w-full">Continue to Homepage</Button>
+            <Button className="w-full">Enter the Atelier</Button>
           </Link>
         </div>
       )}
